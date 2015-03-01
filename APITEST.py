@@ -1,17 +1,22 @@
-import json
+####
+#
+#
+#
+####
 
+# ==== Imports
+import json
 from riotwatcher import RiotWatcher, EUROPE_WEST
 
-key = 'c2aa2be4-e00b-4a89-b622-3e17b67e1097'
+# ==== Definitions
+_APIkey = 'c2aa2be4-e00b-4a89-b622-3e17b67e1097'                                # API key for developers
+w = RiotWatcher(_APIkey)                                                        # riotwatcher data
+summoner_name = "StirlingArcher69"                                              # Name of LoL Summoner
+s = w.get_summoner(name=summoner_name, region='euw')                            # Data on Summoner
+#sID = s['id']                                                                   # ID of Summoner
+match = 1960675310                                                              # ID of match to work with
 
-summoner_name = "StirlingArcher69"
 
-w = RiotWatcher(key)
-
-s = w.get_summoner(name=summoner_name, region='euw')
-sID = s['id']
-
-match = 1960675310
 
 print "==== Match details for", str(match), "===="
 stats1 = json.dumps(w.get_match(match, region='euw', include_timeline='true'))
@@ -41,12 +46,26 @@ for count in range(10):
     _eventsPerPerson[str(count + 1)] = []
 
 
-for c in parsed1['timeline']['frames']:
-    for count in range(1, 11):
-        print count
-        temp = _eventsPerPerson[str(count)]
-        tempDict = dict(c['participantFrames'][str(count)])
-        _eventsPerPerson[str(count)] = _eventsPerPerson[str(count)].append(tempDict)
-        #temp = temp.append(c['participantFrames'][str(count)])
-        #print temp
-        #_eventsPerPerson[count] = temp
+#for c in parsed1['timeline']['frames']:
+#    for count in range(1, 11):
+#        temp = _eventsPerPerson[str(count)]
+#        tempDict = dict(c['participantFrames'][str(count)])
+#        _eventsPerPerson[str(count)] = _eventsPerPerson[str(count)] + [tempDict]
+
+for items in parsed1['timeline']['frames']:     # ignores wards
+    try:
+        tempList = items['events']
+        for vals in tempList:
+            #if "participantId" in str(vals):
+            #    _eventsPerPerson[str(vals['participantId'])] = _eventsPerPerson[str(vals['participantId'])] + [vals]
+            if "killerId" in str(vals):
+                _eventsPerPerson[str(vals['killerId'])] = _eventsPerPerson[str(vals['killerId'])] + [vals]
+    except KeyError:
+        continue
+        # print "skipped", str(items['participantFrames'])
+
+for key in _eventsPerPerson:
+    print "Participant:", str(key)
+    for events in _eventsPerPerson[key]:
+        temp = json.dumps(events, indent=4, sort_keys=True)
+        print temp

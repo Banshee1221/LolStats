@@ -9,7 +9,7 @@ import json
 from riotwatcher import RiotWatcher, EUROPE_WEST
 
 # ==== Definitions
-_APIkey = 'c2aa2be4-e00b-4a89-b622-3e17b67e1097'                                # API key for developers
+_APIkey = ''                                                                    # API key for developers
 w = RiotWatcher(_APIkey)                                                        # riotwatcher data
 summoner_name = "StirlingArcher69"                                              # Name of LoL Summoner
 s = w.get_summoner(name=summoner_name, region='euw')                            # Data on Summoner

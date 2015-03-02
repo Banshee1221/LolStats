@@ -1,0 +1,24 @@
+{% extends "template.html" %}
+{% block title %}
+<title>LolStatsWeb | Home</title>
+{% endblock %}
+{% block content %}
+    <div class="jumbotron" id="heatmapArea" style="height: 512px;width: 512px;background-image: url('https://s3-us-west-1.amazonaws.com/riot-api/img/minimap-ig.png')">
+        <script>
+            window.onload = function(){
+                var heatmapInstance = h337.create({
+                  container: document.querySelector('#heatmapArea'),
+                  radius: 30
+                });
+                document.querySelector('.container').onclick = function(ev) {
+                  heatmapInstance.addData({
+                    x: ev.layerX,
+                    y: ev.layerY,
+                    value: 1
+                  });
+                };
+                // that's it... yay right? ;)
+            };
+        </script>
+    </div>
+{% endblock %}

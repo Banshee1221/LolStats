@@ -2,15 +2,27 @@
 {% block title %}
 <title>LolStatsWeb | Home</title>
 {% endblock %}
+
+{% block header %}
+<div class="navbar-inverse nav">
+    <ul class="nav navbar-nav">
+        <li id="Projectsli"><a href="#">Projects</a></li>
+        <li id="Downloadsli"><a href="#">Downloads</a></li>
+        <li id="Contactli"><a href="#" data-toggle="modal">Contact</a></li>
+        <li id="Find-usli"><a href="#" data-toggle="modal"">Find us</a></li>
+    </ul>
+</div>
+{% endblock %}
+
 {% block content %}
-    <div class="jumbotron" id="heatmapArea" style="height: 512px;width: 512px;background-image: url('https://s3-us-west-1.amazonaws.com/riot-api/img/minimap-ig.png')">
+    <div id="heatmapArea" style="height: 512px;width: 512px;background-image: url('https://s3-us-west-1.amazonaws.com/riot-api/img/minimap-ig.png')">
         <script>
             window.onload = function(){
                 var heatmapInstance = h337.create({
                   container: document.querySelector('#heatmapArea'),
                   radius: 30
                 });
-                document.querySelector('.container').onclick = function(ev) {
+                document.querySelector('#container').onclick = function(ev) {
                   heatmapInstance.addData({
                     x: ev.layerX,
                     y: ev.layerY,

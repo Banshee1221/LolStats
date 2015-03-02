@@ -9,12 +9,23 @@
     </head>
 
     <body>
+
+        <!-- Header -->
+
+        {% block header %}
+        {% endblock %}
+
         <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script type="text/javascript" src="{{  url_for('static', filename='js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{  url_for('static', filename='js/heatmap.js') }}"></script>
-        <div class="container">
+
+        <div id="container">
+
+            <!-- Content -->
+
             {% block content %}
             {% endblock %}
         </div>
+
     </body>
 </html>

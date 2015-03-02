@@ -81,7 +81,7 @@ class main:
     #        temp = json.dumps(events, indent=4, sort_keys=True)
     #        print temp
 
-match = 1960675310
-run = main('', "StirlingArcher69", match)
-print "==== Match details for", str(match), "===="
-print(json.dumps(run.getEventsPerPerson(), indent=4, sort_keys=True))
+#match = 1960675310
+#run = main('', "StirlingArcher69", match)
+#print "==== Match details for", str(match), "===="
+#print(json.dumps(run.getEventsPerPerson(), indent=4, sort_keys=True))

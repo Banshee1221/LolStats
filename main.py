@@ -64,12 +64,10 @@ for count in range(10):
 
 
 for c in parsed1['timeline']['frames']:
-    print c
     for count in range(1, 11):
         temp = _framesPerPerson[str(count)]
         tempDict = dict(c['participantFrames'][str(count)])
         _framesPerPerson[str(count)] = _framesPerPerson[str(count)] + [tempDict]
-
 
 #for key in _eventsPerPerson:
 #    print "Participant:", str(key)

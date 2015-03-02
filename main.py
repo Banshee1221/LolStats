@@ -8,69 +8,83 @@
 import json
 from riotwatcher import RiotWatcher, EUROPE_WEST
 
-# ==== Definitions
-_APIkey = str(raw_input("Enter API Key: "))                                     # API key for developers
-w = RiotWatcher(_APIkey)                                                        # riotwatcher data
-summoner_name = "StirlingArcher69"                                              # Name of LoL Summoner
-s = w.get_summoner(name=summoner_name, region='euw')                            # Data on Summoner
-#sID = s['id']                                                                   # ID of Summoner
-match = 1960675310                                                              # ID of match to work with
+class main:
+
+    def __init__(self, _APIkey, _sumName, _matchNo):
+        # ==== Definitions
+        self._APIkey = _APIkey                                                              # API key for developers
+        self._summoner_name = _sumName                                                      # Name of LoL Summoner
+        self._watcherObj = RiotWatcher(self._APIkey)                                        # riotwatcher data
+        self._sumObj = self._watcherObj.get_summoner(name=self._summoner_name, region='euw')              # Data on Summoner
+        self._sID = self._sumObj['id']                                                      # ID of Summoner
+        self._match = _matchNo                                                               # ID of match to work with
+        self._stats1 = json.dumps(self._watcherObj.get_match(self._match, region='euw', include_timeline='true'))
+        self._parsed1 = json.loads(self._stats1)
+        self._matchId = self._parsed1['matchId']
+        self._mapId = self._parsed1['mapId']
+
+    def getPeopleForMatch(self):
+
+        print "==== Match details for", str(self._match), "===="
+        _people = {}                                                                # ID | name
+        for a in self._parsed1['participantIdentities']:
+            _people[a['player']['summonerId']] = str(a['player']['summonerName'])
+
+        return _people
+
+    def getParticipantsForMatch(self):
+
+        _participants = {}                                                          # number | ID
+
+        for values in self._parsed1['participantIdentities']:
+            _participants[values['participantId']] = values['player']['summonerId']
+
+        return _participants
+
+    def getEventsPerPerson(self):
+
+        _eventsPerPerson = {}
+
+        for count in range(10):
+            _eventsPerPerson[str(count + 1)] = []
+
+        for items in self._parsed1['timeline']['frames']:     # ignores wards
+            try:
+                tempList = items['events']
+                for vals in tempList:
+                    #if "participantId" in str(vals):
+                    #    _eventsPerPerson[str(vals['participantId'])] = _eventsPerPerson[str(vals['participantId'])] + [vals]
+                    if "killerId" in str(vals):
+                        _eventsPerPerson[str(vals['killerId'])] = _eventsPerPerson[str(vals['killerId'])] + [vals]
+            except KeyError:
+                continue
+                # print "skipped", str(items['participantFrames'])
+
+        return _eventsPerPerson
+
+    def getFramesPerPerson(self):
+
+        _framesPerPerson = {}
+
+        for count in range(10):
+            _framesPerPerson[str(count + 1)] = []
+
+        for values in self._parsed1['timeline']['frames']:
+            for count in range(1, 11):
+                tempDict = dict(values['participantFrames'][str(count)])
+                _framesPerPerson[str(count)] = _framesPerPerson[str(count)] + [tempDict]
+
+        return _framesPerPerson
 
 
-
-print "==== Match details for", str(match), "===="
-stats1 = json.dumps(w.get_match(match, region='euw', include_timeline='true'))
-parsed1 = json.loads(stats1)
-#print json.dumps(parsed1, indent=4, sort_keys=True)
-#for key, value in parsed1.items():
-#    print key, value
-
-# pretty print
-_matchId = parsed1['matchId']
-
-_mapId = parsed1['mapId']
-
-_people = {}                                                                # ID | name
-
-for a in parsed1['participantIdentities']:
-    _people[a['player']['summonerId']] = str(a['player']['summonerName'])
-
-_participants = {}                                                          # number | ID
-
-for b in parsed1['participantIdentities']:
-    _participants[b['participantId']] = b['player']['summonerId']
-
-_eventsPerPerson = {}
-
-for count in range(10):
-    _eventsPerPerson[str(count + 1)] = []
-
-for items in parsed1['timeline']['frames']:     # ignores wards
-    try:
-        tempList = items['events']
-        for vals in tempList:
-            #if "participantId" in str(vals):
-            #    _eventsPerPerson[str(vals['participantId'])] = _eventsPerPerson[str(vals['participantId'])] + [vals]
-            if "killerId" in str(vals):
-                _eventsPerPerson[str(vals['killerId'])] = _eventsPerPerson[str(vals['killerId'])] + [vals]
-    except KeyError:
-        continue
-        # print "skipped", str(items['participantFrames'])
-
-_framesPerPerson = {}
-
-for count in range(10):
-    _framesPerPerson[str(count + 1)] = []
-
-
-for c in parsed1['timeline']['frames']:
-    for count in range(1, 11):
-        temp = _framesPerPerson[str(count)]
-        tempDict = dict(c['participantFrames'][str(count)])
-        _framesPerPerson[str(count)] = _framesPerPerson[str(count)] + [tempDict]
 
 #for key in _eventsPerPerson:
-#    print "Participant:", str(key)
-#    for events in _eventsPerPerson[key]:
-#        temp = json.dumps(events, indent=4, sort_keys=True)
-#        print temp
+    #    print "Participant:", str(key)
+    #    for events in _eventsPerPerson[key]:
+    #        temp = json.dumps(events, indent=4, sort_keys=True)
+    #        print temp
+
+
+
+run = main('', "StirlingArcher69", 1960675310)
+print(run.getFramesPerPerson())

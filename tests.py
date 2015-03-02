@@ -4,11 +4,11 @@
 import time
 from riotwatcher import RiotWatcher, EUROPE_WEST
 
-key = 'c2aa2be4-e00b-4a89-b622-3e17b67e1097'
+key = ''
 # if summoner doesnt have ranked teams, teams tests will fail
 # if summoner doesnt have ranked stats, stats tests will fail
 # these are not graceful failures, so try to use a summoner that has them
-summoner_name = 'Sterlingarcher69'
+summoner_name = ''
 
 w = RiotWatcher(key)
 

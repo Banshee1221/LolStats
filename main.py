@@ -1,8 +1,6 @@
-####
-#
-#
-#
-####
+"""
+LolWatcher is an
+"""
 
 # ==== Imports
 import json
@@ -11,6 +9,7 @@ from riotwatcher import RiotWatcher, EUROPE_WEST
 class main:
 
     def __init__(self, _APIkey, _sumName, _matchNo):
+
         # ==== Definitions
         self._APIkey = _APIkey                                                              # API key for developers
         self._summoner_name = _sumName                                                      # Name of LoL Summoner
@@ -25,8 +24,8 @@ class main:
 
     def getPeopleForMatch(self):
 
-        print "==== Match details for", str(self._match), "===="
         _people = {}                                                                # ID | name
+
         for a in self._parsed1['participantIdentities']:
             _people[a['player']['summonerId']] = str(a['player']['summonerName'])
 
@@ -76,15 +75,13 @@ class main:
 
         return _framesPerPerson
 
-
-
 #for key in _eventsPerPerson:
     #    print "Participant:", str(key)
     #    for events in _eventsPerPerson[key]:
     #        temp = json.dumps(events, indent=4, sort_keys=True)
     #        print temp
 
-
-
-run = main('', "StirlingArcher69", 1960675310)
-print(run.getFramesPerPerson())
+match = 1960675310
+run = main('', "StirlingArcher69", match)
+print "==== Match details for", str(match), "===="
+print(json.dumps(run.getEventsPerPerson(), indent=4, sort_keys=True))

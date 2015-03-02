@@ -9,7 +9,7 @@ import json
 from riotwatcher import RiotWatcher, EUROPE_WEST
 
 # ==== Definitions
-_APIkey = ''                                                                    # API key for developers
+_APIkey = str(raw_input("Enter API Key: "))                                     # API key for developers
 w = RiotWatcher(_APIkey)                                                        # riotwatcher data
 summoner_name = "StirlingArcher69"                                              # Name of LoL Summoner
 s = w.get_summoner(name=summoner_name, region='euw')                            # Data on Summoner
@@ -45,13 +45,6 @@ _eventsPerPerson = {}
 for count in range(10):
     _eventsPerPerson[str(count + 1)] = []
 
-
-#for c in parsed1['timeline']['frames']:
-#    for count in range(1, 11):
-#        temp = _eventsPerPerson[str(count)]
-#        tempDict = dict(c['participantFrames'][str(count)])
-#        _eventsPerPerson[str(count)] = _eventsPerPerson[str(count)] + [tempDict]
-
 for items in parsed1['timeline']['frames']:     # ignores wards
     try:
         tempList = items['events']
@@ -64,8 +57,22 @@ for items in parsed1['timeline']['frames']:     # ignores wards
         continue
         # print "skipped", str(items['participantFrames'])
 
-for key in _eventsPerPerson:
-    print "Participant:", str(key)
-    for events in _eventsPerPerson[key]:
-        temp = json.dumps(events, indent=4, sort_keys=True)
-        print temp
+_framesPerPerson = {}
+
+for count in range(10):
+    _framesPerPerson[str(count + 1)] = []
+
+
+for c in parsed1['timeline']['frames']:
+    print c
+    for count in range(1, 11):
+        temp = _framesPerPerson[str(count)]
+        tempDict = dict(c['participantFrames'][str(count)])
+        _framesPerPerson[str(count)] = _framesPerPerson[str(count)] + [tempDict]
+
+
+#for key in _eventsPerPerson:
+#    print "Participant:", str(key)
+#    for events in _eventsPerPerson[key]:
+#        temp = json.dumps(events, indent=4, sort_keys=True)
+#        print temp

@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}" rel="stylesheet">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         {% block title %}
         {% endblock %}
     </head>
@@ -16,6 +17,7 @@
         {% endblock %}
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="{{  url_for('static', filename='js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{  url_for('static', filename='js/heatmap.js') }}"></script>
 

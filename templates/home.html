@@ -9,7 +9,7 @@
         <li id="Projectsli"><a href="#">Projects</a></li>
         <li id="Downloadsli"><a href="#">Downloads</a></li>
         <li id="Contactli"><a href="#" data-toggle="modal">Contact</a></li>
-        <li id="Find-usli"><a href="#" data-toggle="modal"">Find us</a></li>
+        <li id="Find-usli"><a href="#" data-toggle="modal">Find us</a></li>
     </ul>
 </div>
 {% endblock %}
@@ -17,20 +17,38 @@
 {% block content %}
     <div id="heatmapArea" style="height: 512px;width: 512px;background-image: url('https://s3-us-west-1.amazonaws.com/riot-api/img/minimap-ig.png')">
         <script>
-            window.onload = function(){
-                var heatmapInstance = h337.create({
-                  container: document.querySelector('#heatmapArea'),
-                  radius: 30
-                });
-                document.querySelector('#container').onclick = function(ev) {
-                  heatmapInstance.addData({
-                    x: ev.layerX,
-                    y: ev.layerY,
-                    value: 1
-                  });
-                };
-                // that's it... yay right? ;)
+        $(document).ready(function() {
+            var events = {{ events|safe }};
+            var ex = {{ x }};
+            var wy = {{ y }};
+            var time = {{ time }};
+
+            // minimal heatmap instance configuration
+            var heatmapInstance = h337.create({
+              // only container is required, the rest will be defaults
+                container: document.querySelector('#heatmapArea'),
+                radius: 20
+            });
+
+            // now generate some random data
+            var points = [];
+            var max = 0;
+            for (var i=0; i < ex.length; i++) {
+              var point = {
+                x: ex[i],
+                y: wy[i]
+              };
+              points.push(point);
+            }
+            // heatmap data format
+            var data = {
+              max: max,
+              data: points
             };
+            // if you have a set of datapoints always use setData instead of addData
+            // for data initialization
+            heatmapInstance.setData(data);
+        });
         </script>
     </div>
 {% endblock %}

@@ -53,7 +53,7 @@ class main:
                 for vals in tempList:
                     #if "participantId" in str(vals):
                     #    _eventsPerPerson[str(vals['participantId'])] = _eventsPerPerson[str(vals['participantId'])] + [vals]
-                    if "killerId" in str(vals):
+                    if "killerId" in str(vals) and "BUILDING_KILL" not in str(vals):
                         _eventsPerPerson[str(vals['killerId'])] = _eventsPerPerson[str(vals['killerId'])] + [vals]
             except KeyError:
                 continue

@@ -3,17 +3,30 @@
 # Imports
 
 from __future__ import division
-from flask import Flask, render_template, jsonify, request
-import requests
-import json
+from flask import Flask, render_template
+import os
 from main import main
 
 
 # LolStats
+_playerName = "TheOddOne"
+run = main(str(raw_input('Enter API Key: ')), _playerName, 1997209490, 'na', _rankedType="ranked")
 
-run = main(str(raw_input('Enter API Key: ')), "TheOddOne", 1997209490, 'na')
-#run1 = main(str(raw_input('Enter API Key: ')), "StirlingArcher69", 1997150473)
-#run2 = main(str(raw_input('Enter API Key: ')), "StirlingArcher69", 1994417673)
+_dir = str(os.getcwd())+"\\static\\json"
+if not os.path.exists(_dir):
+    os.makedirs(_dir+_playerName)
+
+
+
+
+
+
+
+
+
+
+
+
 
 def sortEvents(personID):
     event = []

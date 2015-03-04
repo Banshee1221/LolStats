@@ -8,15 +8,21 @@ from riotwatcher import RiotWatcher
 
 class main:
 
-    def __init__(self, _APIkey, _sumName, _matchNo, _region):
+    def __init__(self, _APIkey, _sumName, _matchNo, _region, _rankedType):
 
         # ==== Definitions
+        self._gameType = ''
+        if _rankedType == "solo":
+            self._gameType = 'RANKED_TEAM_5x5'
+        elif _rankedType == "ranked":
+            self._gameType = 'RANKED_SOLO_x5'
         self._APIkey = _APIkey                                                              # API key for developers
         self._summoner_name = _sumName                                                      # Name of LoL Summoner
         self._watcherObj = RiotWatcher(self._APIkey)                                        # riotwatcher data
         self._sumObj = self._watcherObj.get_summoner(name=self._summoner_name, region=_region)              # Data on Summoner
         self._sID = self._sumObj['id']                                                      # ID of Summoner
         self._match = _matchNo                                                               # ID of match to work with
+        self._sumGames = self._watcherObj.get_match_history(summoner_id=self._sID, region=_region, ranked_queues=self._gameType)
         self._stats1 = json.dumps(self._watcherObj.get_match(self._match, region=_region, include_timeline='true'))
         self._parsed1 = json.loads(self._stats1)
         self._matchId = self._parsed1['matchId']

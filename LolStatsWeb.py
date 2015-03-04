@@ -11,7 +11,7 @@ from main import main
 
 # LolStats
 
-run = main(str(raw_input('Enter API Key: ')), "StirlingArcher69", 1997209490)
+run = main(str(raw_input('Enter API Key: ')), "TheOddOne", 1997209490, 'na')
 #run1 = main(str(raw_input('Enter API Key: ')), "StirlingArcher69", 1997150473)
 #run2 = main(str(raw_input('Enter API Key: ')), "StirlingArcher69", 1994417673)
 

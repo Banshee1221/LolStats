@@ -4,20 +4,20 @@ LolWatcher is an
 
 # ==== Imports
 import json
-from riotwatcher import RiotWatcher, EUROPE_WEST
+from riotwatcher import RiotWatcher
 
 class main:
 
-    def __init__(self, _APIkey, _sumName, _matchNo):
+    def __init__(self, _APIkey, _sumName, _matchNo, _region):
 
         # ==== Definitions
         self._APIkey = _APIkey                                                              # API key for developers
         self._summoner_name = _sumName                                                      # Name of LoL Summoner
         self._watcherObj = RiotWatcher(self._APIkey)                                        # riotwatcher data
-        self._sumObj = self._watcherObj.get_summoner(name=self._summoner_name, region='euw')              # Data on Summoner
+        self._sumObj = self._watcherObj.get_summoner(name=self._summoner_name, region=_region)              # Data on Summoner
         self._sID = self._sumObj['id']                                                      # ID of Summoner
         self._match = _matchNo                                                               # ID of match to work with
-        self._stats1 = json.dumps(self._watcherObj.get_match(self._match, region='euw', include_timeline='true'))
+        self._stats1 = json.dumps(self._watcherObj.get_match(self._match, region=_region, include_timeline='true'))
         self._parsed1 = json.loads(self._stats1)
         self._matchId = self._parsed1['matchId']
         self._mapId = self._parsed1['mapId']

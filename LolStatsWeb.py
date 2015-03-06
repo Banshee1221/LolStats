@@ -8,9 +8,12 @@ import os, json, glob, re, filecmp
 from riotwatcher import RiotWatcher
 from store import DataStore
 
-DataStore((str(raw_input("Enter API key: "))), (str(raw_input("Summoner Name: "))), (str(raw_input("Region: "))))
+api = (str(raw_input("Enter API key: ")))
+name = (str(raw_input("Summoner Name: ")))
+region = (str(raw_input("Region: ")))
 
-#_playerName = "TheOddOne"
+DataStore(api, name, region)
+
 #run = main(str(raw_input('Enter API Key: ')), _playerName, 1997209490, 'na', _rankedType="ranked")
 #
 #

@@ -74,6 +74,6 @@ class DataStore:
         for i in glob.glob("_playerHist*"):
             temp = json.load(open(i, 'r'))
             for vals in temp['matches']:
-                if not os.path.isfile(str(_dir+str(self._playerID)+"\\matchData\\"+str(vals['matchCreation'])+".json")):
-                    writer(str(_dir+str(self._playerID)+"\\matchData\\"), str(vals['matchCreation'])+".json", self.watcherOb.get_match(match_id=vals['matchId'], include_timeline=True), True)
+                if not os.path.isfile(str(_dir+str(self._playerID)+"\\matchData\\"+str(vals['matchId'])+".json")):
+                    writer(str(_dir+str(self._playerID)+"\\matchData\\"), str(vals['matchId'])+".json", self.watcherOb.get_match(match_id=vals['matchId'], include_timeline=True), True)
         os.chdir(self.origDir)

@@ -11,6 +11,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+.. automodule:: parser.py
+
+.. autoclass:: ReadPlayer
+   :members:
+
 
 
 Indices and tables

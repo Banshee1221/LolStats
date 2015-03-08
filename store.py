@@ -8,8 +8,19 @@ import filecmp
 from riotwatcher import RiotWatcher
 
 class DataStore:
+    """
+    DataStore is the script that reads json repsonses from the League of Legends API and stores these responses to
+    disk in the respective player's folder.
+    """
 
     def __init__(self, api, sumName, region):
+        """
+        Initialisation function.
+        :param api: The API key for the user, this is obtained through Riot's developer site.
+        :param sumName: The name of the LoL Summoner that data will be pulled for.
+        :param region: The region that the Summoner plays in.
+        :return: None
+        """
 
         self.watcherOb = RiotWatcher(api)
 
@@ -42,6 +53,14 @@ class DataStore:
         # Dir creation
 
         def writer(_dir, _file, _data, _json):
+            """
+            Helper function to write data to the disk.
+            :param _dir: The directory to store the data.
+            :param _file: The name to call the file that is created.
+            :param _data: The data object to write to the file.
+            :param _json: Flag to indicate if the data is JSON or not.
+            :return: None
+            """
             writeFile = open(str(_dir)+"\\"+str(_file), "w")
             if _json is True:
                 writeFile.write(json.dumps(_data, indent=4))

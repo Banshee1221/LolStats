@@ -48,7 +48,7 @@ class DataStore:
         for allVals in self._playerHist['matches']:
             self._playerMatches.append(allVals['matchId'])
 
-        _dir = str(os.getcwd())+"\\static\\json\\"
+        _dir = str(os.getcwd())+"/static/json/"
 
         # Dir creation
 
@@ -61,7 +61,7 @@ class DataStore:
             :param _json: Flag to indicate if the data is JSON or not.
             :return: None
             """
-            writeFile = open(str(_dir)+"\\"+str(_file), "w")
+            writeFile = open(str(_dir)+"/"+str(_file), "w")
             if _json is True:
                 writeFile.write(json.dumps(_data, indent=4))
             else:
@@ -73,11 +73,11 @@ class DataStore:
             writer((str(_dir+str(self._playerID))), "_playerData.json", self._playerData, True)
             writer((str(_dir+str(self._playerID))), "_playerHist1.json", self._playerHist, True)
         else:
-            if not os.path.isfile(str(_dir+str(self._playerID)+"\\_playerData.json")):
+            if not os.path.isfile(str(_dir+str(self._playerID)+"/_playerData.json")):
                 writer((str(_dir+str(self._playerID))), "_playerData.json", self._playerData, True)
-            if not os.path.isfile(str(_dir+str(self._playerID)+"\\_playerHist1.json")):
+            if not os.path.isfile(str(_dir+str(self._playerID)+"/_playerHist1.json")):
                 writer((str(_dir+str(self._playerID))), "_playerHist1.json", self._playerHist, True)
-            elif os.path.isfile(str(_dir+str(self._playerID)+"\\_playerHist1.json")):
+            elif os.path.isfile(str(_dir+str(self._playerID)+"/_playerHist1.json")):
                 os.chdir(_dir+str(self._playerID))
                 temp = glob.glob("_playerHist*")
                 inc = int(re.search(r'\d+', str(temp[-1])).group()) + 1
@@ -86,13 +86,13 @@ class DataStore:
                     os.remove("_playerHist"+str(inc)+".json")
                 os.chdir(self.origDir)
 
-        if not os.path.exists(_dir+str(self._playerID)+"\\matchData"):
-            os.makedirs(_dir+str(self._playerID)+"\\matchData")
+        if not os.path.exists(_dir+str(self._playerID)+"/matchData"):
+            os.makedirs(_dir+str(self._playerID)+"/matchData")
 
         os.chdir(_dir+str(self._playerID))
         for i in glob.glob("_playerHist*"):
             temp = json.load(open(i, 'r'))
             for vals in temp['matches']:
-                if not os.path.isfile(str(_dir+str(self._playerID)+"\\matchData\\"+str(vals['matchId'])+".json")):
-                    writer(str(_dir+str(self._playerID)+"\\matchData\\"), str(vals['matchId'])+".json", self.watcherOb.get_match(match_id=vals['matchId'], include_timeline=True), True)
+                if not os.path.isfile(str(_dir+str(self._playerID)+"/matchData/"+str(vals['matchId'])+".json")):
+                    writer(str(_dir+str(self._playerID)+"/matchData/"), str(vals['matchId'])+".json", self.watcherOb.get_match(match_id=vals['matchId'], include_timeline=True), True)
         os.chdir(self.origDir)

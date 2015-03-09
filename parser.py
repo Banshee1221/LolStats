@@ -46,7 +46,7 @@ class ReadPlayer:
         :return: None
         """
 
-        os.chdir(self.loc+"\\static\\json\\"+str(playerId))
+        os.chdir(self.loc+"/static/json/"+str(playerId))
         self.playerId = playerId
 
     def getPlayerData(self):
@@ -83,7 +83,7 @@ class ReadPlayer:
         represent each match.
         """
 
-        os.chdir(self.loc+"\\static\\json\\"+str(self.playerId)+"\\matchData")
+        os.chdir(self.loc+"/static/json/"+str(self.playerId)+"/matchData")
         amount = glob.glob("*")
         temp = []
         if len(amount) > 1:
@@ -101,7 +101,7 @@ class ReadPlayer:
         :param matchId: The ID for the match that data needs to be pulled of.
         :return: A dictionary of data pertaining to the specified match
         """
-        os.chdir(self.loc+"\\static\\json\\"+str(self.playerId)+"\\matchData")
+        os.chdir(self.loc+"/static/json/"+str(self.playerId)+"/matchData")
         return dict(json.load(open(str(matchId)+".json"), "r"))
 
 

@@ -7,13 +7,71 @@ from flask import Flask, render_template
 import os, json, glob, re, filecmp
 from riotwatcher import RiotWatcher
 from store import DataStore
+from parser import ReadPlayer
 
-api = (str(raw_input("Enter API key: ")))
-name = (str(raw_input("Summoner Name: ")))
-region = (str(raw_input("Region: ")))
+# api = (str(raw_input("Enter API key: ")))
+# name = (str(raw_input("Summoner Name: ")))
+# region = (str(raw_input("Region: ")))
 
-DataStore(api, name, region)
-
+#DataStore(api, name, region)
+#############################
+#
+#   need to put this in a class of its own
+#   but for now it will do
+#   still need to add functionality for won/lost dragon/baron
+#   would like to add a average gold option across all games
+#   need to add lane
+#   not sure if I should add the per match data to this dict, total[kills, assists, deaths, gold, etc...]
+#
+#   data = {'games' [
+#               'matchId' : int
+#               'kills' : [
+#                   'timestamp': int
+#                   'position': {'x' : int, 'y': int}
+#               ]
+#               'assists' : [
+#                   'timestamp': int
+#                   'position': {'x' : int, 'y': int}
+#               ]
+#               'deaths' : [
+#                   'timestamp': int
+#                   'position': {'x' : int, 'y': int}
+#               ]
+#               'dragons' : [
+#                   'timestamp': int
+#                   'position': {'x' : int, 'y': int}
+#               ]
+#               'barons' : [
+#                   'timestamp': int
+#                   'position': {'x' : int, 'y': int}
+#               ]
+#
+#############################
+joMa = ReadPlayer('19660288')
+var = joMa.getAllPlayerMatches()
+id = 0
+data = {'games': []}
+for i in var:
+    temp = {'matchId': i['matchId'], 'kills': [], 'deaths': [], 'assists': [], 'dragons': [], 'barons': []}
+    for k in i['participantIdentities']:
+        if k['player']['summonerId'] == 19660288:
+            id = k['participantId']
+    for j in i['timeline']['frames']:
+        if 'events' in j:
+            for a in j['events']:
+                if a['eventType'] == "CHAMPION_KILL" and a['killerId'] == id:
+                    temp['kills'].append({'timestamp': a['timestamp'], 'position': a['position']})
+                if a['eventType'] == "CHAMPION_KILL" and a['victimId'] == id:
+                    temp['deaths'].append({'timestamp': a['timestamp'], 'position': a['position']})
+                if not (not (a['eventType'] == "CHAMPION_KILL") or not ('assistingParticipantIds' in a) or not (
+                    id in a['assistingParticipantIds'])):
+                    temp['assists'].append({'timestamp': a['timestamp'], 'position': a['position']})
+                if a['eventType'] == "ELITE_MONSTER_KILL" and a['monsterType'] == "DRAGON":
+                    temp['dragons'].append({'timestamp': a['timestamp'], 'position': a['position']})
+                if a['eventType'] == "ELITE_MONSTER_KILL" and a['monsterType'] == "BARON":
+                    temp['dragons'].append({'timestamp': a['timestamp'], 'position': a['position']})
+    data['games'].append(temp)
+print json.dumps(data, indent=4)
 #run = main(str(raw_input('Enter API Key: ')), _playerName, 1997209490, 'na', _rankedType="ranked")
 #
 #

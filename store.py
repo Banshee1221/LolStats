@@ -38,12 +38,13 @@ class DataStore:
         if self._playerRegion != '':
             self._playerData = self.watcherOb.get_summoner(name=self._playerName, region=self._playerRegion)
             self._playerID = int((self.watcherOb.get_summoner(name=self._playerName, region=self._playerRegion))['id'])
-            self._playerHist = self.watcherOb.get_match_history(summoner_id=self._playerID, region=self._playerRegion)
+            self._playerHist = self.watcherOb.get_match_history(summoner_id=self._playerID, ranked_queues='RANKED_SOLO_5x5', region=self._playerRegion)
         else:
             self._playerData = self.watcherOb.get_summoner(name=self._playerName)
             self._playerID = int((self.watcherOb.get_summoner(name=self._playerName))['id'])
-            self._playerHist = self.watcherOb.get_match_history(summoner_id=self._playerID)
+            self._playerHist = self.watcherOb.get_match_history(summoner_id=self._playerID, ranked_queues='RANKED_SOLO_5x5')
 
+        print self._playerHist
         self._playerMatches = []
         for allVals in self._playerHist['matches']:
             self._playerMatches.append(allVals['matchId'])

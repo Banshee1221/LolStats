@@ -102,7 +102,7 @@ class ReadPlayer:
         :return: A dictionary of data pertaining to the specified match
         """
         os.chdir(self.loc+"/static/json/"+str(self.playerId)+"/matchData")
-        return dict(json.load(open(str(matchId)+".json"), "r"))
+        return dict(json.load(open(str(matchId)+".json", "r")))
 
 
 #test = ParsePlayer(60783)

@@ -3,14 +3,13 @@ $(document).ready(function(){
 
     $(window).on('scroll', function() {
         scrollPosition = $(this).scrollTop();
-        if (scrollPosition >= 125) {
+        if (scrollPosition >= 100) {
             // If the function is only supposed to fire once
-            $("#toc").css("position", "fixed").css("top", "0px");
-
-            // Other function stuff here...
+            $("#toc").css("position", "fixed").css("top", "20px");
         }
         else {
-            $("#toc").css("position", "absolute").css("top", "85px");
+            $("#toc").css("position", "absolute").css("top", "70px");
         }
     });
+
 });

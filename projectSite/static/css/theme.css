@@ -12,10 +12,16 @@ nav.top-nav a.page-title {
     font-size: 32px;
 }
 
+#placeholder {
+
+}
+
 #toc {
-    top: 85px;
-    width: 150px;
-    float: left;
-    height: 100%;
     position: absolute;
+}
+
+@media (max-width: 992px){
+    #toc {
+        width: 160px;
+    }
 }

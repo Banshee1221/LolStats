@@ -50,14 +50,16 @@ print json.dumps(var.getOverview(), indent=4)
 # Flask
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
     #event, x, y, time = sortEvents(6)
+    if request.method == 'POST':
+        print "Hello"
     return render_template('search.html') # ('home.html', events=event, x=x, y=y, time=time)
 
-def home():
-    #event, x, y, time = sortEvents(6)
-    return render_template('search.html')
+# def home():
+#     #event, x, y, time = sortEvents(6)
+#     return render_template('search.html')
 
 if __name__ == '__main__':
     app.run()

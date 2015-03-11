@@ -95,8 +95,11 @@ def stats(name, region):
     ID = obj.getPlayerID()
     print ID
     var = Interpreter(ID)
-    print json.dumps(var.getOverview(), indent=4)
-    return render_template('stats.html', playername=name)
+    #print json.dumps(var.getOverview(), indent=4)
+    new = []
+    for temp in var.getOverview():
+        new.append(str(temp))
+    return render_template('stats.html', playername=name, jsonData=var.getOverview())
 
 # with app.test_request_context():
 #     print url_for('index')

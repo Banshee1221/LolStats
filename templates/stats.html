@@ -1,11 +1,119 @@
 {% extends "template.html" %}
 {% block title %}
-<title>{{ playername|safe }} | Stats</title>
+    <title>{{ playername }} | Stats</title>
 {% endblock %}
 
 {% block header %}
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LolStats</a>
+            </div>
 
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Link</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
 {% endblock %}
 
 {% block content %}
+    <script>
+        $(document).ready(function () {
+            var temp = {{ jsonData|tojson }};
+            var amount = temp.length;
+
+            function createDiv(item, win, lane, assist, gold, kills, deaths, id, minionK, time, champ) {
+                var iDiv = document.createElement('div');
+                iDiv.id = item.toString();
+                if (win == false) {
+                    iDiv.className = 'col-md-12 bg-danger padder';
+                }
+                else {
+                    iDiv.className = 'col-md-12 bg-success padder';
+                }
+                document.getElementsByClassName('col-md-8')[0].appendChild(iDiv);
+                document.getElementById(item.toString()).innerHTML = "<p>Lane: "+lane+"</p>"
+            };
+
+            for (var i = 0; i < amount; i++) {
+                var temp1 = temp[i];
+                createDiv(i, temp1['winner'], temp1['lane'], temp1['assists'], temp1['gold'], temp1['kills'], temp1['deaths'],
+                temp1['matchId'], temp1['minionsKilled'], temp1['matchDuration'], temp1['champion']);
+            };
+        })
+    </script>
+
+    <div class="col-md-4 left">
+        <div class="col-md-12">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod et sem at feugiat. Phasellus
+                nisi mi, semper dictum commodo quis, posuere at ligula. Duis nec volutpat est. Ut eleifend fermentum est
+                id pellentesque. Nullam at quam est. Curabitur hendrerit bibendum tincidunt. Morbi non elit ultricies,
+                tincidunt nisi ut, mattis velit. Ut condimentum erat eu ipsum varius, et facilisis tellus ornare. Ut
+                pharetra orci id nunc maximus, et gravida dolor ultrices. Mauris non dolor ut nibh venenatis aliquam vel
+                vitae augue. Nam scelerisque lacus eu cursus imperdiet. Phasellus sit amet arcu sollicitudin, dictum
+                nisi eu, vulputate quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut vitae diam
+                erat. Nam venenatis magna fermentum, maximus diam a, ultrices velit. In aliquet ipsum nisl, sed egestas
+                felis ultricies et.</p>
+        </div>
+    </div>
+    <div class="col-md-8 right">
+{#        <div class="col-md-12">#}
+{#            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod et sem at feugiat. Phasellus#}
+{#                nisi mi, semper dictum commodo quis, posuere at ligula. Duis nec volutpat est. Ut eleifend fermentum est#}
+{#                id pellentesque. Nullam at quam est. Curabitur hendrerit bibendum tincidunt. Morbi non elit ultricies,#}
+{#                tincidunt nisi ut, mattis velit. Ut condimentum erat eu ipsum varius, et facilisis tellus ornare. Ut#}
+{#                pharetra orci id nunc maximus, et gravida dolor ultrices. Mauris non dolor ut nibh venenatis aliquam vel#}
+{#                vitae augue. Nam scelerisque lacus eu cursus imperdiet. Phasellus sit amet arcu sollicitudin, dictum#}
+{#                nisi eu, vulputate quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut vitae diam#}
+{#                erat. Nam venenatis magna fermentum, maximus diam a, ultrices velit. In aliquet ipsum nisl, sed egestas#}
+{#                felis ultricies et.</p>#}
+{#        </div>#}
+{#        <div class="col-md-12">#}
+{#            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod et sem at feugiat. Phasellus#}
+{#                nisi mi, semper dictum commodo quis, posuere at ligula. Duis nec volutpat est. Ut eleifend fermentum est#}
+{#                id pellentesque. Nullam at quam est. Curabitur hendrerit bibendum tincidunt. Morbi non elit ultricies,#}
+{#                tincidunt nisi ut, mattis velit. Ut condimentum erat eu ipsum varius, et facilisis tellus ornare. Ut#}
+{#                pharetra orci id nunc maximus, et gravida dolor ultrices. Mauris non dolor ut nibh venenatis aliquam vel#}
+{#                vitae augue. Nam scelerisque lacus eu cursus imperdiet. Phasellus sit amet arcu sollicitudin, dictum#}
+{#                nisi eu, vulputate quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut vitae diam#}
+{#                erat. Nam venenatis magna fermentum, maximus diam a, ultrices velit. In aliquet ipsum nisl, sed egestas#}
+{#                felis ultricies et.</p>#}
+{#        </div>#}
+{#        <div class="col-md-12">#}
+{#            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod et sem at feugiat. Phasellus#}
+{#                nisi mi, semper dictum commodo quis, posuere at ligula. Duis nec volutpat est. Ut eleifend fermentum est#}
+{#                id pellentesque. Nullam at quam est. Curabitur hendrerit bibendum tincidunt. Morbi non elit ultricies,#}
+{#                tincidunt nisi ut, mattis velit. Ut condimentum erat eu ipsum varius, et facilisis tellus ornare. Ut#}
+{#                pharetra orci id nunc maximus, et gravida dolor ultrices. Mauris non dolor ut nibh venenatis aliquam vel#}
+{#                vitae augue. Nam scelerisque lacus eu cursus imperdiet. Phasellus sit amet arcu sollicitudin, dictum#}
+{#                nisi eu, vulputate quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut vitae diam#}
+{#                erat. Nam venenatis magna fermentum, maximus diam a, ultrices velit. In aliquet ipsum nisl, sed egestas#}
+{#                felis ultricies et.</p>#}
+{#        </div>#}
+{#        <div class="col-md-12">#}
+{#            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod et sem at feugiat. Phasellus#}
+{#                nisi mi, semper dictum commodo quis, posuere at ligula. Duis nec volutpat est. Ut eleifend fermentum est#}
+{#                id pellentesque. Nullam at quam est. Curabitur hendrerit bibendum tincidunt. Morbi non elit ultricies,#}
+{#                tincidunt nisi ut, mattis velit. Ut condimentum erat eu ipsum varius, et facilisis tellus ornare. Ut#}
+{#                pharetra orci id nunc maximus, et gravida dolor ultrices. Mauris non dolor ut nibh venenatis aliquam vel#}
+{#                vitae augue. Nam scelerisque lacus eu cursus imperdiet. Phasellus sit amet arcu sollicitudin, dictum#}
+{#                nisi eu, vulputate quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut vitae diam#}
+{#                erat. Nam venenatis magna fermentum, maximus diam a, ultrices velit. In aliquet ipsum nisl, sed egestas#}
+{#                felis ultricies et.</p>#}
+{#        </div>#}
+    </div>
 {% endblock %}

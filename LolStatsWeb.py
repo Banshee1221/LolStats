@@ -3,10 +3,31 @@
 # Imports
 
 from __future__ import division
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect
 import os, json, glob, re, filecmp
 from store import DataStore
 from interpreter import Interpreter
+
+regionMappings = {"br": "Brazil",
+                  "eune": "EuropeNordicEast",
+                  "euw": "EuropeWest",
+                  "lan": "LatinAmericaNorth",
+                  "las": "LatinAmericaSouth",
+                  "na": "NorthAmerica",
+                  "oce": "Oceania",
+                  "kr": "Korean",
+                  "ru": "Russia",
+                  "tr": "Turkey"}
+inv_regionMappings = {'Turkey': 'tr',
+                      'Brazil': 'br',
+                      'EuropeNordicEast': 'eune',
+                      'NorthAmerica': 'na',
+                      'LatinAmericaSouth': 'las',
+                      'Oceania': 'oce',
+                      'LatinAmericaNorth': 'lan',
+                      'EuropeWest': 'euw',
+                      'Korean': 'kr',
+                      'Russia': 'ru'}
 
 # api = (str(raw_input("Enter API key: ")))
 # name = (str(raw_input("Summoner Name: ")))
@@ -45,6 +66,7 @@ from interpreter import Interpreter
 #     return event, x, y, time
 #
 
+
 # Flask
 app = Flask(__name__)
 
@@ -61,23 +83,28 @@ def home_post():
         temp = request.form
         sumName = temp['InputName']
         regID = temp['regionSelect']
-    return stats(sumName, str(regID).lower())
+    #return stats(sumName, str(regID).lower())
+    return redirect(url_for('stats', name=sumName, region=regionMappings[regID.lower()]))
 
-@app.route('/')
+@app.route('/stats/<region>/<name>')
 def stats(name, region):
-    print "here"
-    print name, region
-    obj = DataStore(>API-KEY<, name, region)
+    newReg = inv_regionMappings[region]
+    print name, newReg
+    obj = DataStore(>API KEY<, name, newReg)
     print obj
     ID = obj.getPlayerID()
     print ID
     var = Interpreter(ID)
     print json.dumps(var.getOverview(), indent=4)
-    return home()
+    return render_template('stats.html', playername=name)
+
+# with app.test_request_context():
+#     print url_for('index')
+#     print url_for('stats')
 
 # def home():
 #     #event, x, y, time = sortEvents(6)
 #     return render_template('search.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

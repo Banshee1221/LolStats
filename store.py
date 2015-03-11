@@ -44,7 +44,7 @@ class DataStore:
             self._playerID = int((self.watcherOb.get_summoner(name=self._playerName))['id'])
             self._playerHist = self.watcherOb.get_match_history(summoner_id=self._playerID, ranked_queues='RANKED_SOLO_5x5')
 
-        print self._playerHist
+        #print self._playerHist
         self._playerMatches = []
         for allVals in self._playerHist['matches']:
             self._playerMatches.append(allVals['matchId'])

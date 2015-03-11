@@ -10,13 +10,13 @@ from store import DataStore
 from parse import ReadPlayer
 from interpreter import Interpreter
 
-# api = (str(raw_input("Enter API key: ")))
-# name = (str(raw_input("Summoner Name: ")))
-# region = (str(raw_input("Region: ")))
-# #
-# DataStore(api, name, region)
-var = Interpreter(60783)
-print json.dumps(var.getOverview(), indent=4)
+api = (str(raw_input("Enter API key: ")))
+name = (str(raw_input("Summoner Name: ")))
+region = (str(raw_input("Region: ")))
+#
+DataStore(api, name, region)
+#var = Interpreter(60783)
+#print json.dumps(var.getOverview(), indent=4)
 # print json.dumps(var.getSpecificMatchData([1755845428, 1755824402, 1755800718]), indent=4)
 
 #run = main(str(raw_input('Enter API Key: ')), _playerName, 1997209490, 'na', _rankedType="ranked")

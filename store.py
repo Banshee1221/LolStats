@@ -97,3 +97,6 @@ class DataStore:
                 if not os.path.isfile(str(_dir+str(self._playerID)+"/matchData/"+str(vals['matchId'])+".json")):
                     writer(str(_dir+str(self._playerID)+"/matchData/"), str(vals['matchId'])+".json", self.watcherOb.get_match(match_id=vals['matchId'], include_timeline=True), True)
         os.chdir(self.origDir)
+
+    def getPlayerID(self):
+        return self._playerID

@@ -5,9 +5,7 @@
 from __future__ import division
 from flask import Flask, render_template, request
 import os, json, glob, re, filecmp
-from riotwatcher import RiotWatcher
 from store import DataStore
-from parse import ReadPlayer
 from interpreter import Interpreter
 
 # api = (str(raw_input("Enter API key: ")))
@@ -15,8 +13,8 @@ from interpreter import Interpreter
 # region = (str(raw_input("Region: ")))
 # #
 # DataStore(api, name, region)
-var = Interpreter(60783)
-print json.dumps(var.getOverview(), indent=4)
+# var = Interpreter(60783)
+# print json.dumps(var.getOverview(), indent=4)
 # print json.dumps(var.getSpecificMatchData([1755845428, 1755824402, 1755800718]), indent=4)
 
 #run = main(str(raw_input('Enter API Key: ')), _playerName, 1997209490, 'na', _rankedType="ranked")
@@ -53,7 +51,7 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     #event, x, y, time = sortEvents(6)
-    return render_template('search.html') # ('home.html', events=event, x=x, y=y, time=time)
+    return render_template('search.html')  # ('home.html', events=event, x=x, y=y, time=time)
 
 @app.route('/', methods=['POST'])
 def home_post():
@@ -63,7 +61,18 @@ def home_post():
         temp = request.form
         sumName = temp['InputName']
         regID = temp['regionSelect']
-    print sumName, regID
+    return stats(sumName, str(regID).lower())
+
+@app.route('/')
+def stats(name, region):
+    print "here"
+    print name, region
+    obj = DataStore(>API-KEY<, name, region)
+    print obj
+    ID = obj.getPlayerID()
+    print ID
+    var = Interpreter(ID)
+    print json.dumps(var.getOverview(), indent=4)
     return home()
 
 # def home():

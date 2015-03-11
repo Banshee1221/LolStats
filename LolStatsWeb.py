@@ -7,7 +7,7 @@ from flask import Flask, render_template
 import os, json, glob, re, filecmp
 from riotwatcher import RiotWatcher
 from store import DataStore
-from parser import ReadPlayer
+from parse import ReadPlayer
 from interpreter import Interpreter
 
 # api = (str(raw_input("Enter API key: ")))

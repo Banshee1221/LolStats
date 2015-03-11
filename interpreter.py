@@ -6,7 +6,7 @@ __author__ = 'markgrivainis'
 
 import json
 import os
-from parser import ReadPlayer
+from parse import ReadPlayer
 
 class Interpreter():
     def __init__(self, playerId):

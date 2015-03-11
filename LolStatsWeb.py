@@ -50,12 +50,21 @@ print json.dumps(var.getOverview(), indent=4)
 # Flask
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def home():
     #event, x, y, time = sortEvents(6)
-    if request.method == 'POST':
-        print "Hello"
     return render_template('search.html') # ('home.html', events=event, x=x, y=y, time=time)
+
+@app.route('/', methods=['POST'])
+def home_post():
+    sumName = ''
+    regID = ''
+    if request.method == 'POST':
+        temp = request.form
+        sumName = temp['InputName']
+        regID = temp['regionSelect']
+    print sumName, regID
+    return home()
 
 # def home():
 #     #event, x, y, time = sortEvents(6)

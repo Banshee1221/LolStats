@@ -34,28 +34,30 @@
                     <form class="form-inline" action="/" method="post">
                         <div class="form-group">
                             <label for="InputName">Summoner Name</label>
-                            <input type="email" class="form-control" id="InputName" placeholder="e.g. TheOddOne">
+                            <input type="text" class="form-control" name="InputName" placeholder="e.g. TheOddOne">
                         </div>
                         <div class="form-group">
                             <label for="regionSelect">Region</label>
-                            <select class="form-control" id="regionSelect">
-                                <option>BR</option>
-                                <option>EUNE</option>
-                                <option>EUW</option>
-                                <option>LAN</option>
-                                <option>LAS</option>
-                                <option>NA</option>
-                                <option>OCE</option>
-                                <option>PBE</option>
-                                <option>KR</option>
-                                <option>RU</option>
-                                <option>TR</option>
+                            <select class="form-control" name="regionSelect">
+                                <option value="BR">Brazil</option>
+                                <option value="EUNE">Europe Nordic & East</option>
+                                <option value="EUW">Europe West</option>
+                                <option value="LAN">Latin America North</option>
+                                <option value="LAS">Latin America South</option>
+                                <option value="NA">North America</option>
+                                <option value="OCE">Oceania</option>
+                                <option value="KR">Korea</option>
+                                <option value="RU">Russia</option>
+                                <option value="TR">Turkey</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-default">Sign in</button>
+                        <!--<button type="submit" class="btn btn-default">Sign in</button> <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> -->
+                        <button id="butChange" type="submit" class="btn btn-default">Search</button>
+
                     </form>
                 </div>
-                <p class="lead">temp</p>
+                <hr />
+                <p class="lead">League of Legends Stat Generator</p>
             </div>
 
             <div class="mastfoot">

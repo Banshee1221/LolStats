@@ -3,20 +3,20 @@
 # Imports
 
 from __future__ import division
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import os, json, glob, re, filecmp
 from riotwatcher import RiotWatcher
 from store import DataStore
 from parse import ReadPlayer
 from interpreter import Interpreter
 
-api = (str(raw_input("Enter API key: ")))
-name = (str(raw_input("Summoner Name: ")))
-region = (str(raw_input("Region: ")))
-#
-DataStore(api, name, region)
-#var = Interpreter(60783)
-#print json.dumps(var.getOverview(), indent=4)
+# api = (str(raw_input("Enter API key: ")))
+# name = (str(raw_input("Summoner Name: ")))
+# region = (str(raw_input("Region: ")))
+# #
+# DataStore(api, name, region)
+var = Interpreter(60783)
+print json.dumps(var.getOverview(), indent=4)
 # print json.dumps(var.getSpecificMatchData([1755845428, 1755824402, 1755800718]), indent=4)
 
 #run = main(str(raw_input('Enter API Key: ')), _playerName, 1997209490, 'na', _rankedType="ranked")
@@ -46,13 +46,18 @@ DataStore(api, name, region)
 #     print x, y
 #     return event, x, y, time
 #
-# # Flask
-# app = Flask(__name__)
-#
-# @app.route('/')
-# def home():
-#     event, x, y, time = sortEvents(6)
-#     return render_template('home.html', events=event, x=x, y=y, time=time)
-#
-# if __name__ == '__main__':
-#     app.run()
+
+# Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    #event, x, y, time = sortEvents(6)
+    return render_template('search.html') # ('home.html', events=event, x=x, y=y, time=time)
+
+def home():
+    #event, x, y, time = sortEvents(6)
+    return render_template('search.html')
+
+if __name__ == '__main__':
+    app.run()

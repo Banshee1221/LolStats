@@ -1,0 +1,67 @@
+{% extends "template.html" %}
+{% block title %}
+<title>LolStatsWeb | Home</title>
+{% endblock %}
+
+{% block header %}
+<link href="{{ url_for('static', filename='css/theme.css') }}" rel="stylesheet">
+
+
+{% endblock %}
+
+{% block content %}
+<div class="site-wrapper">
+    <div class="site-wrapper-inner">
+        <div class="cover-container">
+            <div class="masthead clearfix">
+                <div class="inner">
+                    <h3 class="masthead-brand">LolStats</h3>
+                    <nav>
+                        <ul class="nav masthead-nav red">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="inner cover">
+                <div class="cover-heading">
+                    <form class="form-inline" action="/search" method="post">
+                        <div class="form-group">
+                            <label for="InputName">Summoner Name</label>
+                            <input type="email" class="form-control" id="InputName" placeholder="e.g. TheOddOne">
+                        </div>
+                        <div class="form-group">
+                            <label for="regionSelect">Region</label>
+                            <select class="form-control" id="regionSelect">
+                                <option>BR</option>
+                                <option>EUNE</option>
+                                <option>EUW</option>
+                                <option>LAN</option>
+                                <option>LAS</option>
+                                <option>NA</option>
+                                <option>OCE</option>
+                                <option>PBE</option>
+                                <option>KR</option>
+                                <option>RU</option>
+                                <option>TR</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-default">Sign in</button>
+                    </form>
+                </div>
+                <p class="lead">temp</p>
+            </div>
+
+            <div class="mastfoot">
+                <div class="inner">
+                    <p>TOTES TESTING</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

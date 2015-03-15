@@ -42,25 +42,20 @@
                 iDiv.id = item.toString();
                 var img = document.createElement('div');
                 var eleLane = document.createElement('div');
-                var col = document.createElement('div');
                 var killDiv = document.createElement('table');
                 var goldCreeps = document.createElement('table');
-{#                var deathDiv = document.createElement('div');#}
-{#                var assistDiv = document.createElement('div');#}
 
-                img.className = 'imag col-md-1';
+                img.className = 'floater col-md-1';
                 img.innerHTML = '<p>test</p>';
-                col.className = '';
-                col.id = 'wrapCol'+item.toString();
-                killDiv.className = 'col-sm-2 table table-condensed border-free-table table';
-                killDiv.innerHTML = '<tbody><tr><td></td><td>Kills: </td><td>'+kills+'</td></tr>' +
-                '<tr><td></td><td>Deaths: </td><td>'+deaths+'</td></tr>' +
-                '<tr><td></td><td>Assists: </td><td>'+assist+'</td></tr></tbody>';
-                eleLane.className = 'port col-md-3';
+                killDiv.className = 'floater col-sm-2 table table-condensed border-free-table';
+                killDiv.innerHTML = '<tbody><tr><td>Kills: </td><td>'+kills+'</td></tr>' +
+                '<tr><td>Deaths: </td><td>'+deaths+'</td></tr>' +
+                '<tr><td>Assists: </td><td>'+assist+'</td></tr></tbody>';
+                eleLane.className = 'floater port col-md-3';
                 eleLane.innerHTML = '<p>Lane: '+lane+'</p>';
-                goldCreeps.className = 'col-sm-2 table table-condensed border-free-table table';
-                goldCreeps.innerHTML = '<tbody><tr><td></td><td>Gold: </td><td>'+gold+'</td></tr>' +
-                '<tr><td></td><td>Creeps: </td><td>'+minionK+'</td></tr></tbody>';
+                goldCreeps.className = 'col-sm-2 table table-condensed border-free-table rightTab';
+                goldCreeps.innerHTML = '<tbody><tr><td>Gold: </td><td>'+gold+'</td></tr>' +
+                '<tr><td>Creeps: </td><td>'+minionK+'</td></tr></tbody>';
                 if (win == false) {
                     iDiv.className = 'col-md-12 bg-danger padder';
                 }
@@ -69,10 +64,7 @@
                 }
                 document.getElementsByClassName('col-md-8')[0].appendChild(iDiv);
                 document.getElementById(item.toString()).appendChild(img);
-                document.getElementById(item.toString()).appendChild(col);
-                document.getElementById(col.id).appendChild(killDiv);
-{#                document.getElementById(col.id).appendChild(deathDiv);#}
-{#                document.getElementById(col.id).appendChild(assistDiv);#}
+                document.getElementById(item.toString()).appendChild(killDiv);
                 document.getElementById(item.toString()).appendChild(eleLane);
                 document.getElementById(item.toString()).appendChild(goldCreeps);
             }
@@ -90,50 +82,31 @@
             <img src="{{ url_for('static', filename='images/vector_minimap.jpg.svg') }}" class="img-responsive">
         </div>
     </div>
-    <div class="col-md-8 right">
-{#        <div class="col-md-12">#}
-{#            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod et sem at feugiat. Phasellus#}
-{#                nisi mi, semper dictum commodo quis, posuere at ligula. Duis nec volutpat est. Ut eleifend fermentum est#}
-{#                id pellentesque. Nullam at quam est. Curabitur hendrerit bibendum tincidunt. Morbi non elit ultricies,#}
-{#                tincidunt nisi ut, mattis velit. Ut condimentum erat eu ipsum varius, et facilisis tellus ornare. Ut#}
-{#                pharetra orci id nunc maximus, et gravida dolor ultrices. Mauris non dolor ut nibh venenatis aliquam vel#}
-{#                vitae augue. Nam scelerisque lacus eu cursus imperdiet. Phasellus sit amet arcu sollicitudin, dictum#}
-{#                nisi eu, vulputate quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut vitae diam#}
-{#                erat. Nam venenatis magna fermentum, maximus diam a, ultrices velit. In aliquet ipsum nisl, sed egestas#}
-{#                felis ultricies et.</p>#}
-{#        </div>#}
-{#        <div class="col-md-12">#}
-{#            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod et sem at feugiat. Phasellus#}
-{#                nisi mi, semper dictum commodo quis, posuere at ligula. Duis nec volutpat est. Ut eleifend fermentum est#}
-{#                id pellentesque. Nullam at quam est. Curabitur hendrerit bibendum tincidunt. Morbi non elit ultricies,#}
-{#                tincidunt nisi ut, mattis velit. Ut condimentum erat eu ipsum varius, et facilisis tellus ornare. Ut#}
-{#                pharetra orci id nunc maximus, et gravida dolor ultrices. Mauris non dolor ut nibh venenatis aliquam vel#}
-{#                vitae augue. Nam scelerisque lacus eu cursus imperdiet. Phasellus sit amet arcu sollicitudin, dictum#}
-{#                nisi eu, vulputate quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut vitae diam#}
-{#                erat. Nam venenatis magna fermentum, maximus diam a, ultrices velit. In aliquet ipsum nisl, sed egestas#}
-{#                felis ultricies et.</p>#}
-{#        </div>#}
-{#        <div class="col-md-12">#}
-{#            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod et sem at feugiat. Phasellus#}
-{#                nisi mi, semper dictum commodo quis, posuere at ligula. Duis nec volutpat est. Ut eleifend fermentum est#}
-{#                id pellentesque. Nullam at quam est. Curabitur hendrerit bibendum tincidunt. Morbi non elit ultricies,#}
-{#                tincidunt nisi ut, mattis velit. Ut condimentum erat eu ipsum varius, et facilisis tellus ornare. Ut#}
-{#                pharetra orci id nunc maximus, et gravida dolor ultrices. Mauris non dolor ut nibh venenatis aliquam vel#}
-{#                vitae augue. Nam scelerisque lacus eu cursus imperdiet. Phasellus sit amet arcu sollicitudin, dictum#}
-{#                nisi eu, vulputate quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut vitae diam#}
-{#                erat. Nam venenatis magna fermentum, maximus diam a, ultrices velit. In aliquet ipsum nisl, sed egestas#}
-{#                felis ultricies et.</p>#}
-{#        </div>#}
-{#        <div class="col-md-12">#}
-{#            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod et sem at feugiat. Phasellus#}
-{#                nisi mi, semper dictum commodo quis, posuere at ligula. Duis nec volutpat est. Ut eleifend fermentum est#}
-{#                id pellentesque. Nullam at quam est. Curabitur hendrerit bibendum tincidunt. Morbi non elit ultricies,#}
-{#                tincidunt nisi ut, mattis velit. Ut condimentum erat eu ipsum varius, et facilisis tellus ornare. Ut#}
-{#                pharetra orci id nunc maximus, et gravida dolor ultrices. Mauris non dolor ut nibh venenatis aliquam vel#}
-{#                vitae augue. Nam scelerisque lacus eu cursus imperdiet. Phasellus sit amet arcu sollicitudin, dictum#}
-{#                nisi eu, vulputate quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut vitae diam#}
-{#                erat. Nam venenatis magna fermentum, maximus diam a, ultrices velit. In aliquet ipsum nisl, sed egestas#}
-{#                felis ultricies et.</p>#}
+    <div id="rightDiv" class="col-md-8 right" style="height: 1000px; overflow:auto;">
+{#        <div style="display:table;height:100%;" class="bg-danger padder">#}
+{#            <div style="float:left;display:table-cell;vertical-align:middle;" class="imag col-md-1">#}
+{#                test#}
+{#            </div>#}
+{#            <div style="float:left" class="col-md-1 textContainer">#}
+{#                test2#}
+{#            </div>#}
+{#            <table style="float:left; width: 134px;" class="col-sm-2 table table-condensed border-free-table">#}
+{#                <tbody>#}
+{#                    <tr>#}
+{#                        <td>Kills: </td>#}
+{#                        <td>'+kills+'</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>Deaths: </td>#}
+{#                        <td>'+deaths+'</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>Assists: </td>#}
+{#                        <td>'+assist+'</td>#}
+{#                    </tr>#}
+{#                </tbody>#}
+{#            </table>#}
+{##}
 {#        </div>#}
     </div>
 {% endblock %}

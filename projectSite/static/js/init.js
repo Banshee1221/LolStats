@@ -11,5 +11,8 @@ $(document).ready(function(){
             $("#toc").css("position", "absolute").css("top", "70px");
         }
     });
+    document.getElementById('vid1').addEventListener('loadedmetadata', function() {
+        this.currentTime = 0.01;
+    }, false);
 
 });

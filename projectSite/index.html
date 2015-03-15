@@ -7,6 +7,10 @@
     <link type="text/css" rel="stylesheet" href="static/lightbox/css/lightbox.css" media="screen,projection"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <link href="http://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="http://api.html5media.info/1.1.5/html5media.min.js"></script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     <title>Welcome | LolStatsWeb</title>
 </head>
 <body>
@@ -30,6 +34,7 @@
                 <li><a href="#concept">Conception</a></li>
                 <li><a href="#queries">Visual Queries</a></li>
                 <li><a href="#design">Design Iterations</a></li>
+                <li><a href="#strweak">Strengths & Weaknesses</a></li>
                 <li><a href="#conclusion">Conclusion</a></li>
                 <li><a href="#team">Team Work</a></li>
             </ul>
@@ -77,25 +82,20 @@
                 <h1>Conception</h1>
 
                 <div class="divider"></div>
-                <h4 style="margin-top: 30px;margin-bottom:-10px;">What We Wanted To Do</h4>
+                <h4 style="margin-top: 30px;margin-bottom:-10px;">What We Want To Do</h4>
 
-                <p><br/> We want to make a visualization that enables players to analyze how they are performing relative
-                    to the
-                    map.  Being able to visualize where you are getting kills and where you are dying can help improve
-                    you play style and as a result improve your chances of winning.
-                    <br/><br/>
-                    Using the data provided by the Riot API we can also create overlays that can help optimize how
-                    you play your role.  Heatmaps can be generated to show where the player spends the majority of their
-                    time.  How efficiently they are killing minions in the jungle and what route they decided to take
-                    to clear these camps.
-                    <br/><br/>
-                    As League of Legends is an objective based game, our visualization will show what events took
-                    place leading up to the objective, this will give insight into why you successfully took the objective
-                    or failed to do so.
-                    <br/><br>
-                    Through the use of our site we hope to help players getter a better idea of how they play the game
-                    and what steps they can take to become a better player
-                    </br>
+                <p><br/> We want to make a visualization that enables players to analyze how they are performing
+                    relative to the map. Being able to visualize where you are getting kills and where you are dying can
+                    help improve your play style and as a result improve your chances of winning.<br/><br/>Using the
+                    data provided by the Riot API we can also create overlays that can help optimize how you play your
+                    role. Heatmaps can be generated to show where the player spends the majority of their time, how
+                    efficiently they are killing minions in the jungle and what route they decided to take to clear
+                    these camps. Scatter plots can help to visualise the displacement of kills and deaths for any given
+                    player and give them valuable insight into their play styles.<br/><br/>As League of Legends is an
+                    objective based game, our visualization will show which events took place leading up to the
+                    objective, this will give insight into why you successfully took any particular objective or failed
+                    to do so.<br/><br>Through the use of our visualisations, we hope to help players getter a better
+                    idea of how they play the game and what steps they can take to become better players</br>
                 </p>
                 <h4 style="margin-top: 30px;margin-bottom:-10px;">Related Work</h4>
 
@@ -115,9 +115,36 @@
                 <a href="static/images/lolking_main.jpg" data-lightbox="lolking_main.jpg">
                     <img class="responsive-img" style="width:100%;" src="static/images/lolking_main.jpg">
                 </a>
-                Another example we found was that of a visualization of the movement of players (random players) on the
-                map for 10 000 games, whilst this shows something on the map and would be interesting for a player to
-                see, it provides no meaningful statistics to an individual and shows too little information. Taken from:
+
+                <p><br/>
+                    Another example we found was that of a visualization of the movement of players (random players) on
+                    the map for 10 000 games, whilst this shows something on the map and would be interesting for a
+                    player to see, it provides no meaningful statistics to an individual and shows too little
+                    information. Here is what it looks like, for interest sake:
+                </p>
+                <video id="vid1" width="640" height="480" controls preload>
+                    <source src="http://int.nyt.com/data/videotape/finished/2014/10/09/lolstats/lane-b-4-470.mp4"
+                            type="video/mp4"></source>
+                </video>
+                <p><br/>
+                    The next example shows something closer to what we were looking for. The heatmap shows regions where
+                    player deaths (when they are defeated by an opponent) occurred on the map and the amount (darker
+                    red) of deaths, as well as the time-span for these amounts. While being closer to what we
+                    envisioned, the graphic still had no individual value, you may be able to see where you are likely
+                    to die, but not where you as an individual had been dying or what role you were playing. That
+                    coupled with the fact that the heatmap isn’t easy to read on the background (poor colour
+                    choice) and that it is in no way dynamic or interactive lead us to believe that this kind of
+                    visualisation could be done better.
+                </p>
+                <a href="static/images/will_main.jpg" data-lightbox="will_main.jpg">
+                    <img class="responsive-img" style="width:100%;" src="static/images/will_main.jpg">
+                </a>
+
+                <p>
+                    So as you can see from the above examples something
+                    personal and graphic, as to the locations on the map where events had occurred for that player was
+                    required.
+                </p>
             </div>
         </div>
         <div class="container">
@@ -127,25 +154,8 @@
                 <div class="divider"></div>
                 <h4 style="margin-top: 30px;margin-bottom:-10px;">Interface</h4>
 
-                <p><br/> Test test test test test Test test test test test Test test test test test Test test test test
-                    test
-                    Test test test test test Test test test test test Test test test test test Test test test test test
-                    <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                    test
-                    Test test test test test Test test test test test Test test test test test Test test test test test
-                    <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                    test
-                    Test test test test test Test test test test test Test test test test test Test test test test test
-                    <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                    test
-                    Test test test test test Test test test test test Test test test test test Test test test test test
-                    <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                    test
-                    Test test test test test Test test test test test Test test test test test Test test test test test
-                    <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                    test
-                    Test test test test test Test test test test test Test test test test test Test test test test test
-                    <br/> Test test test test test Test test test test test Test test test test test Test test test test
+                <p><br/>
+
                 </p>
                 <h4 style="margin-top: 30px;margin-bottom:-10px;">Map</h4>
             </div>
@@ -156,15 +166,63 @@
                 <h1>Design Iterations</h1>
 
                 <div class="divider"></div>
+                <p>
+                    Our design followed a procedure of 3 iterations, involving refinement over each iteration. We
+                    had an extremely general principal to work with. We knew that we wanted a application to display the
+                    relevant statistics (kills, deaths, assists, ward placements and kills) and a map to display where
+                    they occurred. <b>(Click the picture headings to display/hide them. They have icons next to
+                    them.)</b>
+                </p>
+                <br/>
                 <h4>First Design</h4>
+
+                <p><br/>
+                    The initial design was a very rough mock-up of the interface that we wanted to use to display the
+                    concept in order to decide whether it was worth going forward. The basic layout was decided here and
+                    this was kept throughout all the designs. The box on the left displays the list of player match
+                    history in separate boxes with a summary of their statistics for each respective game displayed in
+                    the boxes. The summary would be the most important information that a player needs to see about
+                    each match. These include:
+                </p>
+                <ul>
+                    <li>
+                        - Player Kills
+                    </li>
+                    <li>
+                        - Player Deaths
+                    </li>
+                    <li>
+                        - Gold Per Minute
+                    </li>
+                    <li>
+                        - Player Assists
+                    </li>
+                </ul>
+                <p>
+                    The map on the left is used to show the kills and deaths of players based on the specific matches
+                    which
+                    data they would want to see of. This is added to the map when a box is clicked once and removed when
+                    the
+                    clicked box is clicked again. The map features a time slider that would allow events during specific
+                    times to be shows, for closer inspection.<br/><br/>Various checkboxes will allow matches that are
+                    displayed to be filtered by specific requirements.
+                </p>
+
                 <ul class="collapsible collapsible-accordion">
                     <li>
-                        <div class="collapsible-header active"><i class="mdi-action-info-outline"></i>Main Screen</div>
+                        <div class="collapsible-header"><i class="mdi-action-info-outline"></i>Main View</div>
                         <div class="collapsible-body"><a href="static/images/first_main.jpg"
                                                          data-lightbox="first_main.jpg"><img style="width:100%;"
                                                                                              src="static/images/first_main.jpg"></a>
                         </div>
                     </li>
+                </ul>
+
+                <p><br/>
+                    When the map is selected, the background is faded out and an expanded map with much more detail is
+                    shown in full, to allow a person to
+                </p>
+                <ul class="collapsible collapsible-accordion">
                     <li>
                         <div class="collapsible-header"><i class="mdi-maps-map"></i>Extended Map View</div>
                         <div class="collapsible-body"><a href="static/images/first_extend.jpg"
@@ -173,76 +231,114 @@
                         </div>
                     </li>
                 </ul>
-                <p><br/> Test test test test test Test test test test test Test test test test test Test test test test
-                    test
-                    Test test test test test Test test test test test Test test test test test Test test test test test
-                    <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                    test
-                    Test test test test test Test test test test test Test test test test test Test test test test test
-                    <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                    test
-                    Test test test test test Test test test test test Test test test test test Test test test test test
-                    <br/>
-
+                <br/>
                 <h4>Second Design</h4>
+
+                <p>
+                    We started getting really excited about our design and though about what we could do to assist
+                    visual queries. Firstly, we added a most obvious feature which would be to search for a player to
+                    get that player's data. The design for this page was simple and the combination of the colours and
+                    text allow aid in helping people easily understand how to use it.
+                </p>
                 <ul class="collapsible collapsible-accordion">
                     <li>
                         <div class="collapsible-header"><i class="mdi-action-search"></i>Search Screen</div>
-                        <div class="collapsible-body"><img style="width:100%;" src="static/images/second_search.png">
-                        </div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header"><i class="mdi-action-info-outline"></i>Main Interface</div>
-                        <div class="collapsible-body"><img style="width:100%;" src="static/images/second_main.png">
-                        </div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header"><i class="mdi-maps-map"></i>Extended Map View</div>
-                        <div class="collapsible-body"><img style="width:100%;" src="static/images/second_map.png">
+                        <div class="collapsible-body"><a href="static/images/second_search.png"
+                                                         data-lightbox="second_search.png"><img style="width:100%;"
+                                                                                                src="static/images/second_search.png"></a>
                         </div>
                     </li>
                 </ul>
-                Test test test test test Test test test test test Test test test test test Test test test test test
-                Test test test test test Test test test test test Test test test test test Test test test test test
-                <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                test
-                Test test test test test Test test test test test Test test test test test Test test test test test
-                <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                test
-                Test test test test test Test test test test test Test test test test test Test test test test test
-                <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                test
-                Test test test test test Test test test test test Test test test test test Test test test test test
-                <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                test
-                Test test test test test Test test test test test Test test test test test Test test test test test
+
+                <p><br/>
+                    The main interface was given a major overhaul. Since this is the screen with the most information,
+                    we needed to use good practices to allow people to easily satisfy visual queries. Each box on the
+                    right represents an individual match, as mentioned before. For the status of a won or lost game, a
+                    differentiation of typical green and red colours for each respective box is used. The player
+                    champion icon is displayed to allow players to better remember prior matches and information was
+                    laid out in a cleaner, better way.<br/><br/>The biggest change was the introduction of texture to
+                    allow differentiation of matches that are selected and that are currently supplying information to
+                    the map or not. When the box is selected, a diagonal texture is used to distinguish it.
+                </p>
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <div class="collapsible-header"><i class="mdi-action-info-outline"></i>Main Interface</div>
+                        <div class="collapsible-body"><a href="static/images/second_main.png"
+                                                         data-lightbox="second_main.png"><img style="width:100%;"
+                                                                                              src="static/images/second_main.png"></a>
+                        </div>
+                    </li>
+                </ul>
+                <p><br/>
+                    The idea of the focused map is improved on the second iterations and here we decided to add
+                    filtering rules to the map, as well as move the time slider from the main interface to here. It
+                    makes more sense to have the time slider in the setting that is larger, where more information can
+                    be seen and understood.<br/><br/>Filters were also added, giving additional flexibility to have more
+                    match specific features or events turned on or off, as opposed to just having the match history
+                    affected.
+                </p>
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <div class="collapsible-header"><i class="mdi-maps-map"></i>Extended Map View</div>
+                        <div class="collapsible-body"><a href="static/images/second_map.png"
+                                                         data-lightbox="second_map.png"><img style="width:100%;"
+                                                                                             src="static/images/second_map.png"></a>
+                        </div>
+                    </li>
+                </ul>
                 <br/>
                 <h4>Third Design</h4>
                 <ul class="collapsible collapsible-accordion">
                     <li>
                         <div class="collapsible-header"><i class="mdi-action-search"></i>Search Screen</div>
-                        <div class="collapsible-body"><img style="width:100%;" src="static/images/third_search.JPG">
+                        <div class="collapsible-body"><a href="static/images/third_search.JPG"
+                                                         data-lightbox="third_search.JPG"><img style="width:100%;"
+                                                                                               src="static/images/third_search.JPG"></a>
                         </div>
                     </li>
                     <li>
                         <div class="collapsible-header"><i class="mdi-action-info-outline"></i>Main Interface</div>
-                        <div class="collapsible-body"><img style="width:100%;" src="static/images/second_main.png">
+                        <div class="collapsible-body"><a href="static/images/second_main.png"
+                                                         data-lightbox="second_main.png"><img style="width:100%;"
+                                                                                              src="static/images/second_main.png"></a>
                         </div>
                     </li>
                     <li>
                         <div class="collapsible-header"><i class="mdi-maps-map"></i>Extended Map View</div>
-                        <div class="collapsible-body"><img style="width:100%;" src="static/images/second_map.png">
+                        <div class="collapsible-body"><a href="static/images/minimap_with_symbols.svg"
+                                                         data-lightbox="minimap_with_symbols.svg"><img
+                                style="width:100%;"
+                                src="static/images/minimap_with_symbols.svg"></a>
                         </div>
                     </li>
                 </ul>
-                Test test test test test Test test test test test Test test test test test Test test test test test
-                Test test test test test Test test test test test Test test test test test Test test test test test
-                <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                test
-                Test test test test test Test test test test test Test test test test test Test test test test test
-                <br/> Test test test test test Test test test test test Test test test test test Test test test test
-                test
-                Test test test test test Test test test test test Test test test test test Test test test test test </p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="strweak" class="section scrollspy">
+                <h1>Strengths and Weaknesses</h1>
+
+                <div class="divider"></div>
+                <p>
+                    Firstly we believe that our visualization provides the user with a lot of information regarding
+                    their individual play and how the play with each role, where they are doing well, or poorly and
+                    helps overall to better their game. Secondly with the ability to compare to their other roles and
+                    other people they can really get down to what they should be doing with what role. With our
+                    visualization we believe that the user can get a real feel for their match history rather than
+                    seeing what they already know from the post game statistics (kills, deaths etc) by putting into
+                    context of the map itself as well as putting it into context with other players. The one weakness is
+                    that with large amounts of data the map becomes cluttered and occlusion can occur and we needed to
+                    find a way around this.<br/><br/> As far as difficulties during the project, we found that pulling
+                    data from the API was extremely effective but we needed to sift through the data and decode it quite
+                    a bit before it became useful and this took some time and effort. This combined with finding a way
+                    to effectively display this large quantity of data in a small area whilst maintaining as much
+                    meaning as possible was quite the challenge.<br/><br/>So we decided that with checkboxes which could
+                    turn data on and off and only displaying the data for the specified time we could minimize noise on
+                    the map and give the user the data they wanted to see. Coupled with a good colour scheme for the
+                    points we believe our visualization overcome the clutter
+                    and provide a meaningful portrayal of the data.
+                </p>
             </div>
         </div>
 
@@ -251,7 +347,16 @@
                 <h1>Conclusion</h1>
 
                 <div class="divider"></div>
-                <h4>wat</h4>
+                <p>
+                    We believe that through our efforts after the presentation we have addressed most of the key points
+                    brought up by the class which has benefited our project tremendously.<br/><br/> As much as we
+                    believe that our visualization has a lot of potential to be a meaningful source of information and
+                    statistics for all players looking to get better at the game or just see how they are doing in
+                    general, there is always room for improvement. In the future a potential switch to a heat map type
+                    structure for heavily cluttered map could provide promising results. We also believe there is a
+                    place for this visualization on a forum such as LoLKing or somewhere of the sort considering that
+                    we, as avid League players see a definite benefit from a Visualization such as this.
+                </p>
             </div>
         </div>
 
@@ -260,10 +365,41 @@
                 <h1>Team Work</h1>
 
                 <div class="divider"></div>
-                <h4>wat</h4>
+                <p>
+                    Teamwork was divided up among the 3 members of the group in the following manners:<br />
+                </p>
+                <table class="striped">
+                    <thead>
+                    <tr>
+                        <th data-field="id">Name</th>
+                        <th data-field="name">Tasks Assigned</th>
+                        <th data-field="price">Tasks Done</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>Calvin Mills</td>
+                        <td>Eclair</td>
+                        <td>$0.87</td>
+                    </tr>
+                    <tr>
+                        <td>Eugene de Beste</td>
+                        <td>Jellybean</td>
+                        <td>$3.76</td>
+                    </tr>
+                    <tr>
+                        <td>Mark Grivainis</td>
+                        <td>Lollipop</td>
+                        <td>$7.00</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-
+        <div style="height: 500px">
+            <img class="center responsive-img" src="static/images/lologo.png">
+        </div>
     </div>
 </div>
 </body>

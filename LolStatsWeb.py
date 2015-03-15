@@ -90,7 +90,7 @@ def home_post():
 def stats(name, region):
     newReg = inv_regionMappings[region]
     print name, newReg
-    obj = DataStore(>API KEY<, name, newReg)
+    obj = DataStore(>API<, name, newReg)
     print obj
     ID = obj.getPlayerID()
     print ID

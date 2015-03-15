@@ -90,7 +90,7 @@ def home_post():
 def stats(name, region):
     newReg = inv_regionMappings[region]
     print name, newReg
-    obj = DataStore(>API<, name, newReg)
+    obj = DataStore('43e873ea-c59b-4e3c-95dd-82ac46f093e2', name, newReg)
     print obj
     ID = obj.getPlayerID()
     print ID
@@ -99,7 +99,7 @@ def stats(name, region):
     #print var.getSpecificMatchData([1749310367, 1749340557])
 
 
-    return render_template('stats.html', playername=name, jsonData=var.getOverview(), matchData=var.getSpecificMatchData([1749310367, 1758461371,1759481434 ,1759515336 ,1759557482 ,1759608504 ,1759650707]))
+    return render_template('stats.html', playername=name, jsonData=var.getOverview(), matchData=var.getSpecificMatchData([1759650707]))
 
 # with app.test_request_context():
 #     print url_for('index')

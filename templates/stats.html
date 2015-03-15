@@ -82,8 +82,8 @@
     </script>
 
     <div class="col-md-4 left">
-        <div class="col-md-12" id="brand_div" style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 400px">
-            <div id='chart_div'></div>
+        <div class="col-md-12" id="brand_div" style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat; padding: 0; background-size: 400px">
+            <div id='chart_div' style="padding: 0; margin: 0"></div>
 {#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
 
         </div><script type="text/javascript">
@@ -98,11 +98,11 @@
             var ar = [['X', 'Y', {'type': 'string', 'role': 'style'}]];
             for (var i = 0;i < temper['games'].length;i++) {
                 for (var j = 0; j < temper['games'][i]['kills'].length; j++)
-                    ar.push([temper['games'][i]['kills'][j]['position']['x'] - 120, temper['games'][i]['kills'][j]['position']['y'] - 120, k]);
+                    ar.push([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y'], k]);
                 for (var j = 0; j < temper['games'][i]['deaths'].length; j++)
-                    ar.push([temper['games'][i]['deaths'][j]['position']['x'] - 120, temper['games'][i]['deaths'][j]['position']['y'] - 120, d]);
+                    ar.push([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y'], d]);
                 for (var j = 0; j < temper['games'][i]['assists'].length; j++)
-                    ar.push([temper['games'][i]['assists'][j]['position']['x'] - 120, temper['games'][i]['assists'][j]['position']['y'] - 120, a]);
+                    ar.push([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y'], a]);
             }
             data.addColumn('number', 'y');
             data.addColumn('number', 'x');
@@ -111,21 +111,25 @@
             backgroundColor: 'none',
             'width':400,
             'height':400,
-            chartArea:{left:5,top:0,width:"100%",height:"100%"},
+            chartArea:{left:0,top:0,width:"100%",height:"100%"},
             legend: {position: 'none'},
             vAxis: {
                 gridlines: {
                     color: 'transparent'
                 },
-                minValue: 0,
-                maxValue: 14980
+                viewWindow: {
+                    min: -120,
+                    max: 14980
+                }
             },
             hAxis: {
                 gridlines: {
                     color: 'transparent'
                 },
-                minValue: 0,
-                maxValue: 14870
+                viewWindow: {
+                    min: -120,
+                    max: 14870
+                }
             }
         };
 

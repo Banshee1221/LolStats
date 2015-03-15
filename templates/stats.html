@@ -37,6 +37,7 @@
             var temp = {{ jsonData|tojson }};
             var amount = temp.length;
 
+
             function createDiv(item, win, lane, assist, gold, kills, deaths, id, minionK, time, champ) {
                 var iDiv = document.createElement('div');
                 iDiv.id = item.toString();
@@ -74,13 +75,64 @@
                 createDiv(i, temp1['winner'], temp1['lane'], temp1['assists'], temp1['gold'], temp1['kills'], temp1['deaths'],
                 temp1['matchId'], temp1['minionsKilled'], temp1['matchDuration'], temp1['champion']);
             }
+
+
+
         })
     </script>
 
     <div class="col-md-4 left">
-        <div class="col-md-12">
-            <img src="{{ url_for('static', filename='images/vector_minimap.jpg.svg') }}" class="img-responsive">
-        </div>
+        <div class="col-md-12" id="brand_div" style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 400px">
+            <div id='chart_div'></div>
+{#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
+
+        </div><script type="text/javascript">
+        var temper = {{ matchData|tojson }};
+        google.load("visualization", "1.1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var k = 'point { size: 5; shape-type: diamond; fill-color: #46B9C4';
+            var d = 'point { size: 5; shape-type: triangle; fill-color: #FF3D33';
+            var a = 'point { size: 5; shape-type: circle; fill-color: #000000';
+            var data = new google.visualization.DataTable();
+            var ar = [['X', 'Y', {'type': 'string', 'role': 'style'}]];
+            for (var i = 0;i < temper['games'].length;i++) {
+                for (var j = 0; j < temper['games'][i]['kills'].length; j++)
+                    ar.push([temper['games'][i]['kills'][j]['position']['x'] - 120, temper['games'][i]['kills'][j]['position']['y'] - 120, k]);
+                for (var j = 0; j < temper['games'][i]['deaths'].length; j++)
+                    ar.push([temper['games'][i]['deaths'][j]['position']['x'] - 120, temper['games'][i]['deaths'][j]['position']['y'] - 120, d]);
+                for (var j = 0; j < temper['games'][i]['assists'].length; j++)
+                    ar.push([temper['games'][i]['assists'][j]['position']['x'] - 120, temper['games'][i]['assists'][j]['position']['y'] - 120, a]);
+            }
+            data.addColumn('number', 'y');
+            data.addColumn('number', 'x');
+            var data = google.visualization.arrayToDataTable(ar);
+        var options = {
+            backgroundColor: 'none',
+            'width':400,
+            'height':400,
+            chartArea:{left:5,top:0,width:"100%",height:"100%"},
+            legend: {position: 'none'},
+            vAxis: {
+                gridlines: {
+                    color: 'transparent'
+                },
+                minValue: 0,
+                maxValue: 14980
+            },
+            hAxis: {
+                gridlines: {
+                    color: 'transparent'
+                },
+                minValue: 0,
+                maxValue: 14870
+            }
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+      }</script>
     </div>
     <div id="rightDiv" class="col-md-8 right" style="height: 1000px; overflow:auto;">
 {#        <div style="display:table;height:100%;" class="bg-danger padder">#}

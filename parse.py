@@ -35,7 +35,7 @@ class ReadPlayer:
     :var playerId: The ID for the player of which data is being read.
     """
 
-    loc = os.getcwd()
+    loc = ''
     playerId = 0
 
     def __init__(self, playerId):
@@ -45,7 +45,7 @@ class ReadPlayer:
         :param playerId: The ID for the player of which data is being read.
         :return: None
         """
-
+        self.loc = os.getcwd()
         os.chdir(self.loc+"/static/json/"+str(playerId))
         self.playerId = playerId
 
@@ -55,8 +55,9 @@ class ReadPlayer:
         :return: Dictionary containing the data on the player such as name, ID, etc.
         """
 
+        store = dict(json.load(open("_playerData.json", "r")))
         os.chdir(self.loc)
-        return dict(json.load(open("_playerData.json", "r")))
+        return store
 
     def getPlayerHist(self):
         """
@@ -73,8 +74,9 @@ class ReadPlayer:
             os.chdir(self.loc)
             return temp
         else:
+            store = dict(json.load(open(amount[0], "r")))
             os.chdir(self.loc)
-            return dict(json.load(open(amount[0], "r")))
+            return store
 
     def getAllPlayerMatches(self):
         """
@@ -92,8 +94,9 @@ class ReadPlayer:
             os.chdir(self.loc)
             return temp
         else:
+            store = dict(json.load(open(amount[0], "r")))
             os.chdir(self.loc)
-            return dict(json.load(open(amount[0], "r")))
+            return store
 
     def getOneMatch(self, matchId):
         """
@@ -102,7 +105,9 @@ class ReadPlayer:
         :return: A dictionary of data pertaining to the specified match
         """
         os.chdir(self.loc+"/static/json/"+str(self.playerId)+"/matchData")
-        return dict(json.load(open(str(matchId)+".json", "r")))
+        store = dict(json.load(open(str(matchId)+".json", "r")))
+        os.chdir(self.loc)
+        return store
 
 
 #test = ParsePlayer(60783)

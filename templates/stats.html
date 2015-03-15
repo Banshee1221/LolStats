@@ -47,7 +47,8 @@
                 var goldCreeps = document.createElement('table');
 
                 img.className = 'floater col-md-1';
-                img.innerHTML = '<p>test</p>';
+                var lo = '<img src="http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/'+champ.toString()+'.png" width=75px>';
+                img.innerHTML = lo;
                 killDiv.className = 'floater col-sm-2 table table-condensed border-free-table';
                 killDiv.innerHTML = '<tbody><tr><td>Kills: </td><td>'+kills+'</td></tr>' +
                 '<tr><td>Deaths: </td><td>'+deaths+'</td></tr>' +

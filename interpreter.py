@@ -103,6 +103,6 @@ class Interpreter():
                                              i['participants'][id-1]['stats']['neutralMinionsKilled'],
                             'matchDuration': i['matchDuration'],
                             'winner': i['participants'][id-1]['stats']['winner'],
-                            'champion': temp_champs['data'][str(i['participants'][id-1]['championId'])]['name']}
+                            'champion': temp_champs['data'][str(i['participants'][id-1]['championId'])]['key']}
                     data.append(temp)
         return data

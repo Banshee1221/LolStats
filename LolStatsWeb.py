@@ -96,10 +96,10 @@ def stats(name, region):
     print ID
     var = Interpreter(ID)
     #print json.dumps(var.getOverview(), indent=4)
-    new = []
-    for temp in var.getOverview():
-        new.append(str(temp))
-    return render_template('stats.html', playername=name, jsonData=var.getOverview())
+    #print var.getSpecificMatchData([1749310367, 1749340557])
+
+
+    return render_template('stats.html', playername=name, jsonData=var.getOverview(), matchData=var.getSpecificMatchData([1749310367, 1758461371,1759481434 ,1759515336 ,1759557482 ,1759608504 ,1759650707]))
 
 # with app.test_request_context():
 #     print url_for('index')
@@ -110,4 +110,4 @@ def stats(name, region):
 #     return render_template('search.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

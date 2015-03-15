@@ -26,3 +26,5 @@ nav.top-nav a.page-title {
         width: 160px;
     }
 }
+
+video { max-width: 100%; height: auto; }

@@ -93,15 +93,6 @@
                     type: 'scatter',
                     plotBackgroundImage:"{{ url_for('static', filename='images/vector_minimap.jpg.svg') }}"
                 },
-                legend: {
-                    layout: 'vertical',
-                    align: 'left',
-                    verticalAlign: 'top',
-                    x: 100,
-                    y: 70,
-                    floating: true,
-                    borderWidth: 1
-                },
                 title: {
                     text: '',
                     style: {
@@ -111,33 +102,21 @@
                 xAxis: {
                     min: -120,
                     max: 14870,
-                    title: {
-                        text: '',
-                        style: {
-                            display: 'none'
-                        }
-                    },
                     lineWidth: 0,
-                    gridLineWidth: 1,
+                    gridLineWidth: 0,
                     minorGridLineWidth: 0,
                     lineColor: 'transparent',
                     labels: {
                         enabled: false
                     },
-                    minorTickLength: 1,
+                    minorTickLength: 0,
                     tickLength: 0
                 },
                 yAxis: {
                     min: -120,
                     max: 14980,
-                    title: {
-                        text: '',
-                        style: {
-                            display: 'none'
-                        }
-                    },
-                    lineWidth: 1,
-                    gridLineWidth: 1,
+                    lineWidth: 0,
+                    gridLineWidth: 0,
                     minorGridLineWidth: 0,
                     lineColor: 'transparent',
                     labels: {
@@ -147,7 +126,12 @@
                     tickLength: 0
                 },
                 series: [{
-                    data: [[-119, -119], [14870, 14980]]
+                    data: [1, 0, 4]
+                }, {
+                    data: [5, 7, 3]
+                },
+                {
+                    data: [5, 7, 3]
                 }],
                 credits:{
                     enabled:false

@@ -109,10 +109,10 @@ def stats(name, region):
 @app.route('/stats/<region>/<name>', methods=['POST'])
 def stats2(name, region):
     ar = request.json
+    s = None
     s = var.getSpecificMatchData(ar['1'])
-    print jsonify(s)
 
-    return jsonify(matchData2=s)
+    return jsonify(matchData=s)
 
 # with app.test_request_context():
 #     print url_for('index')

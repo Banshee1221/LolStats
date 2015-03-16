@@ -36,7 +36,6 @@
         $(document).ready(function () {
             var temp = {{ jsonData|tojson }};
             var amount = temp.length;
-            var tem = {{ matchData|tojson }};
             function createDiv(item, win, lane, assist, gold, kills, deaths, id, minionK, time, champ) {
                 var iDiv = document.createElement('div');
                 iDiv.id = id.toString();
@@ -45,7 +44,8 @@
                 var killDiv = document.createElement('table');
                 var goldCreeps = document.createElement('table');
                 img.className = 'floater col-md-1';
-                var lo = '<img src="http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/'+champ.toString()+'.png" width=75px>';
+                //var lo = '<img src="http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/'+champ.toString()+'.png" width=75px>';
+                var lo = '<p>' + champ.toString() + '</p>';
                 img.innerHTML = lo;
                 killDiv.className = 'floater col-sm-2 table table-condensed border-free-table';
                 killDiv.innerHTML = '<tbody><tr><td>Kills: </td><td>'+kills+'</td></tr>' +
@@ -81,76 +81,112 @@
     </script>
 
     <div class="col-md-4 left">
-        <div class="col-md-12" id="brand_div" style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat; padding: 0; background-size: 400px">
-            <div id='chart_div' style="padding: 0; margin: 0"></div>
+        <div class="col-md-12">
+            <div id='chart_div' style="padding: 0; margin: 0; width:425px; height:425px"></div>
 {#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
 
         </div><script type="text/javascript">
-        var matches = {'1': [1749310367]};
+        var matches = {'1': [1762106762]}
+        $(function () {
+            $('#chart_div').highcharts({
+                chart: {
+                    type: 'scatter',
+                    plotBackgroundImage:"{{ url_for('static', filename='images/vector_minimap.jpg.svg') }}"
+                },
+                title: {
+                    text: '',
+                    style: {
+                        display: 'none'
+                    }
+                },
+                xAxis: {
+                    min: -120,
+                    max: 14870,
+                    lineWidth: 0,
+                    gridLineWidth: 0,
+                    minorGridLineWidth: 0,
+                    lineColor: 'transparent',
+                    labels: {
+                        enabled: false
+                    },
+                    minorTickLength: 0,
+                    tickLength: 0
+                },
+                yAxis: {
+                    min: -120,
+                    max: 14980,
+                    lineWidth: 0,
+                    gridLineWidth: 0,
+                    minorGridLineWidth: 0,
+                    lineColor: 'transparent',
+                    labels: {
+                        enabled: false
+                    },
+                    minorTickLength: 0,
+                    tickLength: 0
+                },
+                series: [{
+                    data: [1, 0, 4]
+                }, {
+                    data: [5, 7, 3]
+                },
+                {
+                    data: [5, 7, 3]
+                }],
+                credits:{
+                    enabled:false
+                }
+            });
+        });
+
+
         function getPoints() {
             var t1 = JSON.stringify(matches);
+            var chart = $('#chart_div').highcharts();
             $.ajax("/stats/{{ region }}/{{ playername }}", {
                 data: t1,
                 contentType: "application/json",
-                type: "POST"
-            });
-            var temper = {{ matchData2|tojson }};
-            console.log(temper);
-            google.load("visualization", "1.1", {packages: ["corechart"]});
-            google.setOnLoadCallback(drawChart);
-            function drawChart() {
-                var k = 'point { size: 5; shape-type: diamond; fill-color: #46B9C4';
-                var d = 'point { size: 5; shape-type: triangle; fill-color: #FF3D33';
-                var a = 'point { size: 5; shape-type: circle; fill-color: #000000';
-                var data = new google.visualization.DataTable();
-                var ar = [['X', 'Y', {'type': 'string', 'role': 'style'}]];
-                for (var i = 0; i < temper['games'].length; i++) {
-                    for (var j = 0; j < temper['games'][i]['kills'].length; j++)ar.push([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y'], k]);
-                    for (var j = 0; j < temper['games'][i]['deaths'].length; j++)
-                        ar.push([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y'], d]);
-                    for (var j = 0; j < temper['games'][i]['assists'].length; j++)
-                        ar.push([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y'], a]);
+                type: "POST",
+                async: false,
+                success: function (data) {
+                    //console.log(data['matchData']);
+                    temper = data['matchData'];
                 }
-                data.addColumn('number', 'y');
-                data.addColumn('number', 'x');
-                var data = google.visualization.arrayToDataTable(ar);
-                var options = {
-                    backgroundColor: 'none',
-                    'width': 400,
-                    'height': 400,
-                    chartArea: {left: 0, top: 0, width: "100%", height: "100%"},
-                    legend: {position: 'none'},
-                    vAxis: {
-                        gridlines: {
-                            color: 'transparent'
-                        },
-                        viewWindow: {
-                            min: -120,
-                            max: 14980
-                        }
-                    },
-                    hAxis: {
-                        gridlines: {
-                            color: 'transparent'
-                        },
-                        viewWindow: {
-                            min: -120,
-                            max: 14870
-                        }
-                    }
-                };
-
-
-                var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-
-                chart.draw(data, options);
+            });
+            var k = [];
+            var d = [];
+            var a = [];
+            chart.series[2].remove();
+            chart.series[1].remove();
+            chart.series[0].remove();
+            for (var i = 0; i < temper['games'].length; i++) {
+                for (var j = 0; j < temper['games'][i]['kills'].length; j++)
+                    k.push([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y']]);
+                for (var j = 0; j < temper['games'][i]['deaths'].length; j++)
+                    d.push([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y']]);
+                for (var j = 0; j < temper['games'][i]['assists'].length; j++)
+                    a.push([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y']]);
             }
+            chart.addSeries({
+                name: 'k',
+                data: k
+            });
+            chart.addSeries({
+                name: 'd',
+                data: d
+            });
+            chart.addSeries({
+                name: 'a',
+                data: a
+            });
         }
+
+
+
 
         $(document).ready(function () {
             $('#rightDiv').click(function (e) {
                 //if ($(e.target).hasClass('padder'))
-                //alert(event.target.id);
                 var width = $(this).width();
                 matches['1'].push(parseInt(event.target.id));
                 getPoints();

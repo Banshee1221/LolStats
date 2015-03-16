@@ -86,12 +86,21 @@
 {#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
 
         </div><script type="text/javascript">
-        var matches = {'1': [1762106762]}
+        var matches = {'1': []}
         $(function () {
             $('#chart_div').highcharts({
                 chart: {
                     type: 'scatter',
                     plotBackgroundImage:"{{ url_for('static', filename='images/vector_minimap.jpg.svg') }}"
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'left',
+                    verticalAlign: 'top',
+                    x: 100,
+                    y: 70,
+                    floating: true,
+                    borderWidth: 1
                 },
                 title: {
                     text: '',
@@ -102,21 +111,33 @@
                 xAxis: {
                     min: -120,
                     max: 14870,
+                    title: {
+                        text: '',
+                        style: {
+                            display: 'none'
+                        }
+                    },
                     lineWidth: 0,
-                    gridLineWidth: 0,
+                    gridLineWidth: 1,
                     minorGridLineWidth: 0,
                     lineColor: 'transparent',
                     labels: {
                         enabled: false
                     },
-                    minorTickLength: 0,
+                    minorTickLength: 1,
                     tickLength: 0
                 },
                 yAxis: {
                     min: -120,
                     max: 14980,
-                    lineWidth: 0,
-                    gridLineWidth: 0,
+                    title: {
+                        text: '',
+                        style: {
+                            display: 'none'
+                        }
+                    },
+                    lineWidth: 1,
+                    gridLineWidth: 1,
                     minorGridLineWidth: 0,
                     lineColor: 'transparent',
                     labels: {
@@ -126,12 +147,7 @@
                     tickLength: 0
                 },
                 series: [{
-                    data: [1, 0, 4]
-                }, {
-                    data: [5, 7, 3]
-                },
-                {
-                    data: [5, 7, 3]
+                    data: [[-119, -119], [14870, 14980]]
                 }],
                 credits:{
                     enabled:false

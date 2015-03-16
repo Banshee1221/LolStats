@@ -54,7 +54,6 @@ class ReadPlayer:
         Produces a list of all the data on the player.
         :return: Dictionary containing the data on the player such as name, ID, etc.
         """
-
         store = dict(json.load(open("_playerData.json", "r")))
         os.chdir(self.loc)
         return store
@@ -105,6 +104,7 @@ class ReadPlayer:
         :return: A dictionary of data pertaining to the specified match
         """
         os.chdir(self.loc+"/static/json/"+str(self.playerId)+"/matchData")
+        print "oneMatch : " + self.loc
         store = dict(json.load(open(str(matchId)+".json", "r")))
         os.chdir(self.loc)
         return store

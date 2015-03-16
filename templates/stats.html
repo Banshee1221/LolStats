@@ -36,16 +36,14 @@
         $(document).ready(function () {
             var temp = {{ jsonData|tojson }};
             var amount = temp.length;
-
-
+            var tem = {{ matchData|tojson }};
             function createDiv(item, win, lane, assist, gold, kills, deaths, id, minionK, time, champ) {
                 var iDiv = document.createElement('div');
-                iDiv.id = item.toString();
+                iDiv.id = id.toString();
                 var img = document.createElement('div');
                 var eleLane = document.createElement('div');
                 var killDiv = document.createElement('table');
                 var goldCreeps = document.createElement('table');
-
                 img.className = 'floater col-md-1';
                 var lo = '<img src="http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/'+champ.toString()+'.png" width=75px>';
                 img.innerHTML = lo;
@@ -65,10 +63,10 @@
                     iDiv.className = 'col-md-12 bg-success padder';
                 }
                 document.getElementsByClassName('col-md-8')[0].appendChild(iDiv);
-                document.getElementById(item.toString()).appendChild(img);
-                document.getElementById(item.toString()).appendChild(killDiv);
-                document.getElementById(item.toString()).appendChild(eleLane);
-                document.getElementById(item.toString()).appendChild(goldCreeps);
+                document.getElementById(id.toString()).appendChild(img);
+                document.getElementById(id.toString()).appendChild(killDiv);
+                document.getElementById(id.toString()).appendChild(eleLane);
+                document.getElementById(id.toString()).appendChild(goldCreeps);
             }
 
             for (var i = 0; i < amount; i++) {
@@ -88,56 +86,83 @@
 {#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
 
         </div><script type="text/javascript">
-        var temper = {{ matchData|tojson }};
-        google.load("visualization", "1.1", {packages:["corechart"]});
-        google.setOnLoadCallback(drawChart);
-        function drawChart() {
-            var k = 'point { size: 5; shape-type: diamond; fill-color: #46B9C4';
-            var d = 'point { size: 5; shape-type: triangle; fill-color: #FF3D33';
-            var a = 'point { size: 5; shape-type: circle; fill-color: #000000';
-            var data = new google.visualization.DataTable();
-            var ar = [['X', 'Y', {'type': 'string', 'role': 'style'}]];
-            for (var i = 0;i < temper['games'].length;i++) {
-                for (var j = 0; j < temper['games'][i]['kills'].length; j++)
-                    ar.push([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y'], k]);
-                for (var j = 0; j < temper['games'][i]['deaths'].length; j++)
-                    ar.push([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y'], d]);
-                for (var j = 0; j < temper['games'][i]['assists'].length; j++)
-                    ar.push([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y'], a]);
-            }
-            data.addColumn('number', 'y');
-            data.addColumn('number', 'x');
-            var data = google.visualization.arrayToDataTable(ar);
-        var options = {
-            backgroundColor: 'none',
-            'width':400,
-            'height':400,
-            chartArea:{left:0,top:0,width:"100%",height:"100%"},
-            legend: {position: 'none'},
-            vAxis: {
-                gridlines: {
-                    color: 'transparent'
-                },
-                viewWindow: {
-                    min: -120,
-                    max: 14980
+        var matches = {'1': [1749310367]};
+        function getPoints() {
+            var t1 = JSON.stringify(matches);
+            $.ajax("/stats/{{ region }}/{{ playername }}", {
+                data: t1,
+                contentType: "application/json",
+                type: "POST"
+            });
+            var temper = {{ matchData2|tojson }};
+            console.log(temper);
+            google.load("visualization", "1.1", {packages: ["corechart"]});
+            google.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var k = 'point { size: 5; shape-type: diamond; fill-color: #46B9C4';
+                var d = 'point { size: 5; shape-type: triangle; fill-color: #FF3D33';
+                var a = 'point { size: 5; shape-type: circle; fill-color: #000000';
+                var data = new google.visualization.DataTable();
+                var ar = [['X', 'Y', {'type': 'string', 'role': 'style'}]];
+                for (var i = 0; i < temper['games'].length; i++) {
+                    for (var j = 0; j < temper['games'][i]['kills'].length; j++)ar.push([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y'], k]);
+                    for (var j = 0; j < temper['games'][i]['deaths'].length; j++)
+                        ar.push([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y'], d]);
+                    for (var j = 0; j < temper['games'][i]['assists'].length; j++)
+                        ar.push([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y'], a]);
                 }
-            },
-            hAxis: {
-                gridlines: {
-                    color: 'transparent'
-                },
-                viewWindow: {
-                    min: -120,
-                    max: 14870
-                }
+                data.addColumn('number', 'y');
+                data.addColumn('number', 'x');
+                var data = google.visualization.arrayToDataTable(ar);
+                var options = {
+                    backgroundColor: 'none',
+                    'width': 400,
+                    'height': 400,
+                    chartArea: {left: 0, top: 0, width: "100%", height: "100%"},
+                    legend: {position: 'none'},
+                    vAxis: {
+                        gridlines: {
+                            color: 'transparent'
+                        },
+                        viewWindow: {
+                            min: -120,
+                            max: 14980
+                        }
+                    },
+                    hAxis: {
+                        gridlines: {
+                            color: 'transparent'
+                        },
+                        viewWindow: {
+                            min: -120,
+                            max: 14870
+                        }
+                    }
+                };
+
+
+                var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+                chart.draw(data, options);
             }
-        };
+        }
 
-        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
-      }</script>
+        $(document).ready(function () {
+            $('#rightDiv').click(function (e) {
+                //if ($(e.target).hasClass('padder'))
+                //alert(event.target.id);
+                var width = $(this).width();
+                matches['1'].push(parseInt(event.target.id));
+                getPoints();
+                $('#' + event.target.id).animate({
+                    left: "+=50",
+                    width: (width - 50)
+                }, 500, function () {
+                    // Animation complete.
+                });
+            });
+        });
+    </script>
     </div>
     <div id="rightDiv" class="col-md-8 right" style="height: 1000px; overflow:auto;">
 {#        <div style="display:table;height:100%;" class="bg-danger padder">#}

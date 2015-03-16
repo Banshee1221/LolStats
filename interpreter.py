@@ -9,8 +9,11 @@ import os
 from parse import ReadPlayer
 
 class Interpreter():
+    origDir = os.getcwd()
     def __init__(self, playerId):
         self.playerId = playerId
+        self.playerMatches = ReadPlayer(playerId)
+
 
 #############################
 #
@@ -47,45 +50,49 @@ class Interpreter():
 #           }
 #############################
     def getSpecificMatchData(self, array):
-        playerMatches = ReadPlayer(self.playerId)
+
         playerId = 0
         lastTime = 0;
         data = {'games': [], 'matches': []}
-        for i in array:
-            currentGame = playerMatches.getOneMatch(i)
-            if currentGame['matchDuration'] > lastTime:
-                lastTime = currentGame['matchDuration']
-            temp = {'matchId': currentGame['matchId'], 'kills': [], 'deaths': [], 'assists': [], 'dragons': [], 'barons': []}
-            for k in currentGame['participantIdentities']:
-                if k['player']['summonerId'] == self.playerId:
-                    playerId = k['participantId']
-            for j in currentGame['timeline']['frames']:
-                if 'events' in j:
-                    for a in j['events']:
-                        if a['eventType'] == "CHAMPION_KILL" and a['killerId'] == playerId:
-                            temp['kills'].append({'timestamp': a['timestamp']/1000, 'position': a['position']})
-                        if a['eventType'] == "CHAMPION_KILL" and a['victimId'] == playerId:
-                            temp['deaths'].append({'timestamp': a['timestamp']/1000, 'position': a['position']})
-                        if not (not (a['eventType'] == "CHAMPION_KILL") or not ('assistingParticipantIds' in a) or not (
-                            playerId in a['assistingParticipantIds'])):
-                            temp['assists'].append({'timestamp': a['timestamp']/1000, 'position': a['position']})
-                        if a['eventType'] == "ELITE_MONSTER_KILL" and a['monsterType'] == "DRAGON":
-                            temp['dragons'].append({'timestamp': a['timestamp']/1000, 'position': a['position'],
-                                                   'won': (a['killerId'] <=5 and playerId <= 5) or (a['killerId'] >5 and playerId > 5)})
-                        if a['eventType'] == "ELITE_MONSTER_KILL" and a['monsterType'] == "BARON":
-                            temp['barons'].append({'timestamp': a['timestamp']/1000, 'position': a['position'],
-                                                  'won': (a['killerId'] <=5 and playerId <= 5) or (a['killerId'] >5 and playerId > 5)})
-            data['games'].append(temp)
-            data['matches'].append(currentGame['matchId'])
-        data['longestTime'] = lastTime
-        return data
+        #arrays = json.loads(array)
+        print array
+        if array != None:
+            for i in array:
+                currentGame = self.playerMatches.getOneMatch(i)
+                if currentGame['matchDuration'] > lastTime:
+                    lastTime = currentGame['matchDuration']
+                temp = {'matchId': currentGame['matchId'], 'kills': [], 'deaths': [], 'assists': [], 'dragons': [], 'barons': []}
+                for k in currentGame['participantIdentities']:
+                    if k['player']['summonerId'] == self.playerId:
+                        playerId = k['participantId']
+                for j in currentGame['timeline']['frames']:
+                    if 'events' in j:
+                        for a in j['events']:
+                            if a['eventType'] == "CHAMPION_KILL" and a['killerId'] == playerId:
+                                temp['kills'].append({'timestamp': a['timestamp']/1000, 'position': a['position']})
+                            if a['eventType'] == "CHAMPION_KILL" and a['victimId'] == playerId:
+                                temp['deaths'].append({'timestamp': a['timestamp']/1000, 'position': a['position']})
+                            if not (not (a['eventType'] == "CHAMPION_KILL") or not ('assistingParticipantIds' in a) or not (
+                                playerId in a['assistingParticipantIds'])):
+                                temp['assists'].append({'timestamp': a['timestamp']/1000, 'position': a['position']})
+                            if a['eventType'] == "ELITE_MONSTER_KILL" and a['monsterType'] == "DRAGON":
+                                temp['dragons'].append({'timestamp': a['timestamp']/1000, 'position': a['position'],
+                                                       'won': (a['killerId'] <=5 and playerId <= 5) or (a['killerId'] >5 and playerId > 5)})
+                            if a['eventType'] == "ELITE_MONSTER_KILL" and a['monsterType'] == "BARON":
+                                temp['barons'].append({'timestamp': a['timestamp']/1000, 'position': a['position'],
+                                                      'won': (a['killerId'] <=5 and playerId <= 5) or (a['killerId'] >5 and playerId > 5)})
+                data['games'].append(temp)
+                data['matches'].append(currentGame['matchId'])
+            data['longestTime'] = lastTime
+            return data
 
 
     def getOverview(self):
-        origDir = os.getcwd()
-        os.chdir(origDir+"/static/json/")
+
+        os.chdir(self.origDir+"/static/json/")
+
         temp_champs = dict(json.load(open("champions.json", "r")))
-        os.chdir(origDir)
+        os.chdir(self.origDir)
         playerMatches = ReadPlayer(self.playerId)
         var = playerMatches.getAllPlayerMatches()
         data = []

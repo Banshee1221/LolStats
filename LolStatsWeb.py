@@ -3,7 +3,7 @@
 # Imports
 
 from __future__ import division
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 import os, json, glob, re, filecmp
 from store import DataStore
 from interpreter import Interpreter
@@ -28,6 +28,8 @@ inv_regionMappings = {'Turkey': 'tr',
                       'EuropeWest': 'euw',
                       'Korean': 'kr',
                       'Russia': 'ru'}
+playerId = 0
+var = None
 
 # api = (str(raw_input("Enter API key: ")))
 # name = (str(raw_input("Summoner Name: ")))
@@ -86,7 +88,7 @@ def home_post():
     #return stats(sumName, str(regID).lower())
     return redirect(url_for('stats', name=sumName, region=regionMappings[regID.lower()]))
 
-@app.route('/stats/<region>/<name>')
+@app.route('/stats/<region>/<name>', methods=['GET'])
 def stats(name, region):
     newReg = inv_regionMappings[region]
     print name, newReg
@@ -94,12 +96,23 @@ def stats(name, region):
     print obj
     ID = obj.getPlayerID()
     print ID
+    global var
     var = Interpreter(ID)
+    o = var.getOverview()
+    s = var.getSpecificMatchData([])
     #print json.dumps(var.getOverview(), indent=4)
     #print var.getSpecificMatchData([1749310367, 1749340557])
 
 
-    return render_template('stats.html', playername=name, jsonData=var.getOverview(), matchData=var.getSpecificMatchData([1759650707]))
+    return render_template('stats.html', playername=name, region=region, jsonData=o, matchData=s)
+
+@app.route('/stats/<region>/<name>', methods=['POST'])
+def stats2(name, region):
+    ar = request.json
+    s = var.getSpecificMatchData(ar['1'])
+    print jsonify(s)
+
+    return jsonify(matchData2=s)
 
 # with app.test_request_context():
 #     print url_for('index')

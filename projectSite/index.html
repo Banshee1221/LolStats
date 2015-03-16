@@ -131,7 +131,8 @@
                 <p><br/>
                     The next example shows something closer to what we were looking for. The heatmap shows regions where
                     player deaths (when they are defeated by an opponent) occurred on the map and the amount (darker
-                    red) of deaths, as well as the time-span for these amounts<sup><a href="#puller3">[4]</a></sup>. While being closer to what we
+                    red) of deaths, as well as the time-span for these amounts<sup><a href="#puller3">[4]</a></sup>.
+                    While being closer to what we
                     envisioned, the graphic still had no individual value, you may be able to see where you are likely
                     to die, but not where you as an individual had been dying or what role you were playing. That
                     coupled with the fact that the heatmap isn’t easy to read on the background (poor colour
@@ -161,6 +162,10 @@
 
                 <p><br/>
                 <li>How many kills, deaths and assists were I involved in this game (or a group of selected games)?</li>
+                <p style="padding-left: 3em;">The amount of kills deaths and assists you get and where these events
+                    occur is the most important visual query as it is the direct indicator as to how well you are doing
+                    and in what areas these good or bad plays are happening. Addressing areas where you die a lot is an
+                    easy way to get better quickly.</p>
                 <li>What are my amount of kills and death for a particular game?</li>
                 <li>How much income do I make per game and how many creeps do I kill?</li>
                 <br/>
@@ -174,9 +179,31 @@
                 <li>Where did the kills events occur on the map during a specific match and at what times?</li>
                 <li>Where am I dying or killing most champions when I am playing a specific role.</li>
                 <li>What objectives (such as Dragon and Baron kills, etc. and at what times)?</li>
-                <li>What towers am I taking (or losing at which times )?</li>
                 <li>How much times am I spending in which parts of the map?</li>
                 <br/>
+
+
+                <u>Kills/deaths/assists:</u><br/>
+                The amount of kills deaths and assists you get and where these events occur is the most important visual
+                query as it is the direct indicator as to how well you are doing and in what areas these good or bad
+                plays are happening. Addressing areas where you die a lot is an easy way to get better
+                quickly.<br/><br/>
+                <u>Objectives (Baron and Dragon):</u><br/> Knowing at what times these objectives are taken and by whom
+                as well as the activity around the area of these objectives is extremely important as the buffs these
+                monsters provide your team are key to victory and people tend to fight stupidly around these areas,
+                addressing these silly fights and poor execution is a good call for any league player. The most
+                important thing would be to know if you are doing well in the fights around the objectives or poorly
+                (which can be shown by kills/deaths/assists around the pits)<br/><br/>
+                It is important to know where you are spending majority of your time on the map during a specific role,
+                for example, if you are playing Jungle you may be ganking (trying to help your team) too much or too
+                little and knowing these times spent in the areas of the map can really help your jungle clear times and
+                overall play in the jungle. This is just one example from one role as to the importance of knowing where
+                you spend your time.<br/><br/>
+                Gold is used to purchase items which make your champion stronger and itemizing properly is a key part to
+                victory, one incorrect item choice can be the difference between a win and a loss, as such it is
+                extremely important to know how much money you are making and how much of that money is coming through
+                farming (creep kills).
+                <br/><br/>
                 The map is the true form of the visualisation. It displays information of the matches dynamically by
                 generating points to plot on the fly when a user clicks on the desired matches from the interface. The
                 map uses an array of shapes with different colours to distinguish between key events in the matches.
@@ -298,7 +325,11 @@
                     makes more sense to have the time slider in the setting that is larger, where more information can
                     be seen and understood.<br/><br/>Filters were also added, giving additional flexibility to have more
                     match specific features or events turned on or off, as opposed to just having the match history
-                    affected.
+                    affected. During this design phase we found that the API Riot provides developers in order to access
+                    these statistics had some limitation in terms of the data that we could pull. We initially planned
+                    on having ward placements and kills in the visualisation with specific timings, because they can
+                    provide players with very insightful information, but unfortunately the geo-data on these are not
+                    provided as we had originally believed.
                 </p>
                 <ul class="collapsible collapsible-accordion">
                     <li>
@@ -310,7 +341,32 @@
                     </li>
                 </ul>
                 <br/>
+
+                <p>
+                    We received a lot of positive criticism on this design when we presented it to our class for
+                    evaluation.
+                    Some of the suggested changed seemed to have less to do with the visualisation and more to do with
+                    adding additional features. Video games are a popular topic. :D
+                    <br/><br/>
+                    We did get useful feedback on the visual aspects, though. This included the ability to add more than
+                    one
+                    player to compare, the making items appear in the timeline, toggling between multiple selected games
+                    and
+                    a single one, using non-distracting texture and colour on the map, etc. These were well considered
+                    and
+                    implemented for the final design.
+                    <br/><br/>
+                </p>
                 <h4>Third Design</h4>
+
+                <p>
+                    This design stage actually went through many fine changes and decisions as we decided to add and
+                    remove things where we felt it necessary.<br/><br/>The search interface had a big change. We
+                    redesigned it to be more welcoming to players of League of Legends and also fixed one big flaw that
+                    we had forgotten about: choosing which region a player plays in. We made some usability changes like
+                    preventing a player from submitting a blank name and also animating the search button to indicate
+                    that the application is polling the API and generating the statistics.
+                </p>
                 <ul class="collapsible collapsible-accordion">
                     <li>
                         <div class="collapsible-header"><i class="mdi-action-search"></i>Search Screen</div>
@@ -319,22 +375,59 @@
                                                                                                src="static/images/third_search.JPG"></a>
                         </div>
                     </li>
+                </ul>
+                <p><br/>
+                    We took the critique from our peers seriously and decided to redraw the map provided by Riot for use
+                    with their API<sup><a href="#puller4">[5]</a></sup> (the design 2 map). Tracing it from scratch and
+                    using scalable vector graphics, this not only allowed us to dull the colours and make it much more
+                    appropriate for placing images on top of it, but also for resizing it without quality loss. We
+                    utilized
+                    colour shifts and texture to indicate water, jungle and etc.
+                </p>
+                <ul class="collapsible collapsible-accordion">
                     <li>
                         <div class="collapsible-header"><i class="mdi-action-info-outline"></i>Main Interface</div>
-                        <div class="collapsible-body"><a href="static/images/second_main.png"
-                                                         data-lightbox="second_main.png"><img style="width:100%;"
-                                                                                              src="static/images/second_main.png"></a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header"><i class="mdi-maps-map"></i>Extended Map View</div>
-                        <div class="collapsible-body"><a href="static/images/minimap_with_symbols.svg"
-                                                         data-lightbox="minimap_with_symbols.svg"><img
-                                style="width:100%;"
-                                src="static/images/minimap_with_symbols.svg"></a>
+                        <div class="collapsible-body"><a href="static/images/third_main.png"
+                                                         data-lightbox="third_main.png"><img style="width:100%;"
+                                                                                             src="static/images/third_main.png"></a>
                         </div>
                     </li>
                 </ul>
+                <p><br/>
+                    Our final implementation of the map, populated with the user data utilizes a scatter plot like
+                    approach across the map instead of a heatmap, for more readability. We believe that this combined
+                    with the colour code as well as shapes to represent the different fields, marked by the key at the
+                    top provides the user with the clearest version of the data they are seeking (from this they can
+                    easily query where they are dying the most, killing the most etc). Textures and colours are also
+                    used to indicate the “Jungle” region as well as the “River” and are done so in such a manner as to
+                    not occlude any data or overly clutter the map in any way. If you hover above the individual points
+                    more detailed information about the event is available such as the time the event occurred and the
+                    exact coordinate of the event. We chose a dark blue for kills as it can be seen as a positive colour
+                    (a lime green was an option but didn’t read well in the jungle regions) and bright red for the
+                    deaths as it appeared most negative and would invoke the sense of a bad occurrence off the bat. A
+                    fuscia colour being chosen for assists came as it was a sort of intermediary colour, whilst being
+                    positive is still not as advantageous as kills. Even at high volumes of data, we believe this
+                    implementation holds its value and provides the user with meaningful data.
+                </p>
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <div class="collapsible-header"><i class="mdi-maps-map"></i>Extended Map View</div>
+                        <div class="collapsible-body"><a href="static/images/third_map.png"
+                                                         data-lightbox="third_map.png"><img
+                                style="width:100%;"
+                                src="static/images/third_map.png"></a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="mdi-maps-map"></i>Extended Map View (Dragon overlay)</div>
+                        <div class="collapsible-body"><a href="static/images/third_map_dragon.png"
+                                                         data-lightbox="third_map_dragon.png"><img
+                                style="width:100%;"
+                                src="static/images/third_map_dragon.png"></a>
+                        </div>
+                    </li>
+                </ul>
+
             </div>
         </div>
 
@@ -398,25 +491,21 @@
                     <tr>
                         <th data-field="id">Name</th>
                         <th data-field="name">Tasks Assigned</th>
-                        <th data-field="price">Tasks Done</th>
                     </tr>
                     </thead>
 
                     <tbody>
                     <tr>
                         <td>Calvin Mills</td>
-                        <td>Eclair</td>
-                        <td>$0.87</td>
+                        <td>Report and concept design</td>
                     </tr>
                     <tr>
                         <td>Eugene de Beste</td>
-                        <td>Jellybean</td>
-                        <td>$3.76</td>
+                        <td>Implementation of idea and design of app/report</td>
                     </tr>
                     <tr>
                         <td>Mark Grivainis</td>
-                        <td>Lollipop</td>
-                        <td>$7.00</td>
+                        <td>Design and code support</td>
                     </tr>
                     </tbody>
                 </table>
@@ -442,19 +531,33 @@
                 <ul>
                     <li>
                         <a id="puller" class="grey-text text-lighten-3"
-                           href="http://www.makeuseof.com/tag/2-great-sites-for-league-of-legends-statistics-analysis/">1] "2 Great Sites For League Of Legends Statistics & Analysis." MakeUseOf. N.p., n.d. Web. 15 Mar. 2015.</a>
+                           href="http://www.makeuseof.com/tag/2-great-sites-for-league-of-legends-statistics-analysis/">1]
+                            "2 Great Sites For League Of Legends Statistics & Analysis." MakeUseOf. N.p., n.d. Web. 15
+                            Mar. 2015.</a>
                     </li>
                     <div class="divider"></div>
                     <li>
-                        <a id="puller1" class="grey-text text-lighten-3" href="http://www.lolking.net/summoner/euw/48558530">2] "Player Statistics for 48558530." N.p., n.d. Web. 15 Mar. 2015</a>
+                        <a id="puller1" class="grey-text text-lighten-3"
+                           href="http://www.lolking.net/summoner/euw/48558530">2] "Player Statistics for 48558530."
+                            N.p., n.d. Web. 15 Mar. 2015</a>
                     </li>
                     <div class="divider"></div>
                     <li>
-                        <a id="puller2" class="grey-text text-lighten-3" href="http://www.nytimes.com/interactive/2014/10/10/technology/league-of-legends-graphic.html?_r=0">3] Giratikanon, Tom, Jon Huang, and Jeremy White. "Watch 10,000 League of Legends Games in 30 Seconds." The New York Times. The New York Times, 09 Oct. 2014. Web. 15 Mar. 2015.</a>
+                        <a id="puller2" class="grey-text text-lighten-3"
+                           href="http://www.nytimes.com/interactive/2014/10/10/technology/league-of-legends-graphic.html?_r=0">3]
+                            Giratikanon, Tom, Jon Huang, and Jeremy White. "Watch 10,000 League of Legends Games in 30
+                            Seconds." The New York Times. The New York Times, 09 Oct. 2014. Web. 15 Mar. 2015.</a>
                     </li>
                     <div class="divider"></div>
                     <li>
-                        <a id="puller3" class="grey-text text-lighten-3" href="#!">4] "Deaths in League of Legends [Infographic]." Deaths in League of Legends [Infographic]. N.p., n.d. Web. 15 Mar. 2015.</a>
+                        <a id="puller3" class="grey-text text-lighten-3" href="http://willtank.com/deaths.html">4]
+                            "Deaths in League of Legends
+                            [Infographic]." Deaths in League of Legends [Infographic]. N.p., n.d. Web. 15 Mar. 2015.</a>
+                    </li>
+                    <div class="divider"></div>
+                    <li>
+                        <a id="puller4" class="grey-text text-lighten-3" href="#!">5] "API Documentation." Game
+                            Constants. N.p., n.d. Web. 15 Mar. 2015.</a>
                     </li>
                 </ul>
             </div>

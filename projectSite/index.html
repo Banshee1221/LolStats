@@ -92,7 +92,7 @@
                     overlays that can help optimize how you play your
                     role. Points can be generated to show where the player spends the majority of their time, how
                     efficiently they are killing minions in the jungle and what route they decided to take to clear
-                    these camps. Scatter plots can help to visualise the displacement of kills and deaths for any given
+                    these camps. Scatter plots can help to visualise the position of kills and deaths for any given
                     player and give them valuable insight into their play styles.<br/><br/>As League of Legends is an
                     objective based game, our visualization will show which events took place leading up to the
                     objective, this will give insight into why you successfully took any particular objective or failed
@@ -109,13 +109,25 @@
                     and graphs, as well as being more focused on teams rather than players. Their match history does not
                     provide any map based visualization, firstly, and secondly no medium to compare performance based on
                     Role or individual match.<br/><br/>
-                    Below you can see an example of their individual statistics and just how general it is. That being
+                    Below you can see examples of their individual statistics and just how it has no map based
+                    visualisations. That being
                     said, their use of colour is a good way of showing an increase or decrease in personal LoLking score
                     (a general metric of how well or bad you are playing presently) or your match history.<sup>
                         <a href="#puller1">[2]</a></sup>
                 </p>
                 <a href="static/images/lolking_main.jpg" data-lightbox="lolking_main.jpg">
                     <img class="responsive-img" style="width:100%;" src="static/images/lolking_main.jpg">
+                </a>
+                <a href="static/images/lolking_graphs.JPG" data-lightbox="lolking_graphs.jpg">
+                    <img class="responsive-img" style="width:100%;" src="static/images/lolking_graphs.jpg">
+                </a>
+
+                <p><br/>
+                    Here is an example from Riot's official League of Legends page. This uses pie charts to demonstrate
+                    information and it is difficult to grasp the intricate details from such a representation.
+                </p>
+                <a href="static/images/lol_graphs.JPG" data-lightbox="lol_graphs.jpg">
+                    <img class="responsive-img" style="width:100%;" src="static/images/lol_graphs.jpg">
                 </a>
 
                 <p><br/>
@@ -162,10 +174,6 @@
 
                 <p><br/>
                 <li>How many kills, deaths and assists were I involved in this game (or a group of selected games)?</li>
-                <p style="padding-left: 3em;">The amount of kills deaths and assists you get and where these events
-                    occur is the most important visual query as it is the direct indicator as to how well you are doing
-                    and in what areas these good or bad plays are happening. Addressing areas where you die a lot is an
-                    easy way to get better quickly.</p>
                 <li>What are my amount of kills and death for a particular game?</li>
                 <li>How much income do I make per game and how many creeps do I kill?</li>
                 <br/>
@@ -231,7 +239,7 @@
                 <p><br/>
                     The initial design was a very rough mock-up of the interface that we wanted to use to display the
                     concept in order to decide whether it was worth going forward. The basic layout was decided here and
-                    this was kept throughout all the designs. The box on the left displays the list of player match
+                    this was kept throughout all the designs. The box on the right displays the list of player match
                     history in separate boxes with a summary of their statistics for each respective game displayed in
                     the boxes. The summary would be the most important information that a player needs to see about
                     each match. These include:
@@ -344,17 +352,15 @@
 
                 <p>
                     We received a lot of positive criticism on this design when we presented it to our class for
-                    evaluation.
-                    Some of the suggested changed seemed to have less to do with the visualisation and more to do with
-                    adding additional features. Video games are a popular topic. :D
-                    <br/><br/>
-                    We did get useful feedback on the visual aspects, though. This included the ability to add more than
-                    one
+                    evaluation. Some of the suggested changed seemed to have less to do with the visualisation and more
+                    to do with adding additional features. Video games are a popular topic. :D<br/><br/>We did get
+                    useful feedback on the visual aspects, though. This included the ability to add more than one
                     player to compare, the making items appear in the timeline, toggling between multiple selected games
-                    and
-                    a single one, using non-distracting texture and colour on the map, etc. These were well considered
-                    and
-                    implemented for the final design.
+                    and a single one, using non-distracting texture and colour on the map, etc. These were well
+                    considered and implemented for the final design.<br/><br/>This being said, there were some features/
+                    design changes that we decided not to implement due to restrictions in time and complexity. These
+                    features, such as comparing players will be considered for future designs when it is more feasible
+                    to implement them.
                     <br/><br/>
                 </p>
                 <h4>Third Design</h4>
@@ -407,7 +413,12 @@
                     deaths as it appeared most negative and would invoke the sense of a bad occurrence off the bat. A
                     fuscia colour being chosen for assists came as it was a sort of intermediary colour, whilst being
                     positive is still not as advantageous as kills. Even at high volumes of data, we believe this
-                    implementation holds its value and provides the user with meaningful data.
+                    implementation holds its value and provides the user with meaningful data.<br/><br/>
+                    The Dragon overlay will display the events (kills/deaths/assists) around a particular area around
+                    dragon pit (same principle for Baron) for a certain period of time and will show the dragon key in
+                    colour if the dragon went to your team and greyed if it went to the opposition and will grey all the
+                    other data selected. As such, players can get an idea of how well or poorly they are making
+                    decisions around important objectives.
                 </p>
                 <ul class="collapsible collapsible-accordion">
                     <li>
@@ -419,7 +430,8 @@
                         </div>
                     </li>
                     <li>
-                        <div class="collapsible-header"><i class="mdi-maps-map"></i>Extended Map View (Dragon overlay)</div>
+                        <div class="collapsible-header"><i class="mdi-maps-map"></i>Extended Map View (Dragon overlay)
+                        </div>
                         <div class="collapsible-body"><a href="static/images/third_map_dragon.png"
                                                          data-lightbox="third_map_dragon.png"><img
                                 style="width:100%;"
@@ -445,15 +457,15 @@
                     seeing what they already know from the post game statistics (kills, deaths etc) by putting into
                     context of the map itself as well as putting it into context with other players. The one weakness is
                     that with large amounts of data the map becomes cluttered and occlusion can occur and we needed to
-                    find a way around this.<br/><br/> As far as difficulties during the project, we found that pulling
+                    find a way around this.<br/><br/>So we decided that with checkboxes which could
+                    turn data on and off and only displaying the data for the specified time we could minimize noise on
+                    the map and give the user the data they wanted to see. Coupled with a good colour scheme for the
+                    points we believe our visualization overcame the clutter
+                    and provide a meaningful portrayal of the data.<br/><br/> As far as difficulties during the project, we found that pulling
                     data from the API was extremely effective but we needed to sift through the data and decode it quite
                     a bit before it became useful and this took some time and effort. This combined with finding a way
                     to effectively display this large quantity of data in a small area whilst maintaining as much
-                    meaning as possible was quite the challenge.<br/><br/>So we decided that with checkboxes which could
-                    turn data on and off and only displaying the data for the specified time we could minimize noise on
-                    the map and give the user the data they wanted to see. Coupled with a good colour scheme for the
-                    points we believe our visualization overcome the clutter
-                    and provide a meaningful portrayal of the data.
+                    meaning as possible was quite the challenge.
                 </p>
             </div>
         </div>
@@ -509,6 +521,11 @@
                     </tr>
                     </tbody>
                 </table>
+                <p><br/>
+                    Overall, the team worked well together. Perhaps not enough effort was put in when there was time and
+                    some did more
+
+                </p>
             </div>
         </div>
         <div style="height: 500px;background: url(static/images/lologo.png) no-repeat center center">
@@ -556,8 +573,12 @@
                     </li>
                     <div class="divider"></div>
                     <li>
-                        <a id="puller4" class="grey-text text-lighten-3" href="#!">5] "API Documentation." Game
+                        <a id="puller4" class="grey-text text-lighten-3" href="https://developer.riotgames.com/docs/game-constants">5] "API Documentation." Game
                             Constants. N.p., n.d. Web. 15 Mar. 2015.</a>
+                    </li>
+                    <div class="divider"></div>
+                    <li>
+                        <a id="puller5" class="grey-text text-lighten-3" href="http://matchhistory.euw.leagueoflegends.com/en/#match-details/EUW1/2012731488/205313276?tab=overview">6] "League of Legends Match History." Match History. N.p., n.d. Web. 15 Mar. 2015.</a>
                     </li>
                 </ul>
             </div>

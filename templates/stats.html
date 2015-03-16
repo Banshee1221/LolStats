@@ -82,7 +82,7 @@
 
     <div class="col-md-4 left">
         <div class="col-md-12">
-            <div id='chart_div' style="padding: 0; margin: 0; width:425px; height:425px"></div>
+            <div id='chart_div' style="padding: 0; margin: 0; width:420px; height:425px"></div>
 {#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
 
         </div><script type="text/javascript">
@@ -90,6 +90,7 @@
         $(function () {
             $('#chart_div').highcharts({
                 chart: {
+                    alignTicks: false,
                     type: 'scatter',
                     plotBackgroundImage:"{{ url_for('static', filename='images/vector_minimap.jpg.svg') }}"
                 },
@@ -100,6 +101,32 @@
                     }
                 },
                 xAxis: {
+                    title: {
+                        enabled: false,
+                        text: null
+                    },
+                    endOnTick:false,
+                    startOnTick:false,
+                    min: -120,
+                    max: 14870,
+                    lineWidth: 0,
+                    gridLineWidth: 0,
+                    minorGridLineWidth: 0,
+                    tickInterval:100,
+                    lineColor: 'transparent',
+                    labels: {
+                        enabled: false
+                    },
+                    minorTickLength: 0,
+                    tickLength: 0
+                },
+                yAxis: [{
+                    title: {
+                        enabled: false,
+                        text: null
+                    },
+                    endOnTick:false,
+                    startOnTick:false,
                     min: -120,
                     max: 14870,
                     lineWidth: 0,
@@ -111,28 +138,10 @@
                     },
                     minorTickLength: 0,
                     tickLength: 0
-                },
-                yAxis: {
-                    min: -120,
-                    max: 14980,
-                    lineWidth: 0,
-                    gridLineWidth: 0,
-                    minorGridLineWidth: 0,
-                    lineColor: 'transparent',
-                    labels: {
-                        enabled: false
-                    },
-                    minorTickLength: 0,
-                    tickLength: 0
-                },
-                series: [{
-                    data: [1, 0, 4]
-                }, {
-                    data: [5, 7, 3]
-                },
-                {
-                    data: [5, 7, 3]
                 }],
+                legend: {
+                    enabled:false
+                },
                 credits:{
                     enabled:false
                 }
@@ -156,29 +165,61 @@
             var k = [];
             var d = [];
             var a = [];
-            chart.series[2].remove();
-            chart.series[1].remove();
-            chart.series[0].remove();
-            for (var i = 0; i < temper['games'].length; i++) {
+            //while(chart.series.length > 0)
+            //    chart.series[0].remove (false);
+            //chart.redraw();
+            var i = temper['games'].length - 1;
+            //for (var i = 0; i < temper['games'].length; i++) {
                 for (var j = 0; j < temper['games'][i]['kills'].length; j++)
+                    //chart.series[0].addPoint([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y']]);
                     k.push([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y']]);
                 for (var j = 0; j < temper['games'][i]['deaths'].length; j++)
+                    //chart.series[1].addPoint([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y']]);
                     d.push([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y']]);
                 for (var j = 0; j < temper['games'][i]['assists'].length; j++)
+                    //chart.series[2].addPoint([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y']]);
                     a.push([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y']]);
-            }
-            chart.addSeries({
-                name: 'k',
-                data: k
-            });
-            chart.addSeries({
-                name: 'd',
-                data: d
-            });
-            chart.addSeries({
-                name: 'a',
-                data: a
-            });
+                chart.addSeries({
+                    name: temper['games'][i]['matchId'].toString(),
+                    id: "k_"+temper['games'][i]['matchId'],
+                    data: k,
+                    animation: false,
+                    marker: {
+                        symbol: 'circle',
+                        fillColor: '#003380',
+                        radius: 6
+                    }
+                });
+                //k = [];
+                chart.addSeries({
+                    name: temper['games'][i]['matchId'],
+                    id: "d_"+temper['games'][i]['matchId'],
+                    data: d,
+                    animation: false,
+                    marker: {
+                        symbol: 'diamond',
+                        fillColor: '#ff0000',
+                        radius: 6
+                    }
+                });
+                //d = [];
+                chart.addSeries({
+                    name: temper['games'][i]['matchId'],
+                    id: "a_"+temper['games'][i]['matchId'],
+                    data: a,
+                    animation: false,
+                    marker: {
+                        symbol: 'triangle',
+                        fillColor: '#ff00ff',
+                        radius: 6
+                    }
+                });
+                //a = [];
+            //}
+
+
+
+
         }
 
 
@@ -186,16 +227,33 @@
 
         $(document).ready(function () {
             $('#rightDiv').click(function (e) {
-                //if ($(e.target).hasClass('padder'))
-                var width = $(this).width();
-                matches['1'].push(parseInt(event.target.id));
-                getPoints();
-                $('#' + event.target.id).animate({
-                    left: "+=50",
-                    width: (width - 50)
-                }, 500, function () {
-                    // Animation complete.
-                });
+                if ($(e.target).hasClass('padder')) {
+                    var width = $(this).width();
+                    var match = parseInt(event.target.id);
+                    var index = matches['1'].indexOf(match);
+                    if (index == -1) {
+                        matches['1'].push(match);
+                        $('#' + event.target.id).animate({
+                            left: "+=50",
+                            width: (width - 50)
+                        }, 500, function () {
+                            // Animation complete.
+                        });
+                        getPoints();
+                    } else {
+                        var chart = $('#chart_div').highcharts();
+                        chart.get("k_"+matches['1'][index]).remove();
+                        chart.get("d_"+matches['1'][index]).remove();
+                        chart.get("a_"+matches['1'][index]).remove();
+                        matches['1'].splice(index, 1);
+                        $('#' + event.target.id).animate({
+                            left: "-=50",
+                            width: (width + 50)
+                        }, 500, function () {
+                            // Animation complete.
+                        });
+                    }
+                }
             });
         });
     </script>

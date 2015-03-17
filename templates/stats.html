@@ -98,7 +98,8 @@
                     <!-- FIDGET HERR FOR SIZE BUT LOOK AT CSS! -->
                     <div class="stretchy-wrapper">
                         <div id='chart_big_div' style="padding: 0; margin: 0; width:600px; height: 605px"></div>
-                        <div id='kills_deaths_chart' style="padding: 0; margin: 0; width:600px; height: 100px"></div>
+                        <div id='kills_deaths_chart' style="padding: 0; margin: 0; width:600px; height: 75px"></div>
+                        <div id="slider-range" style="width: 600px"></div>
                     </div>
 
 
@@ -112,9 +113,23 @@
         var kills = [];
         var deaths = [];
         var assists = [];
+        var maxTime = 0;
         $('#big_button').click(function () {
             plotLines();
+            $(function() {
+                $("#slider-range").slider({
+                    range: true,
+                    min: 0,
+                    max: maxTime,
+                    values: [0, maxTime],
+                    slide: function (event, ui) {
+                        plotRange(ui.values[0], ui.values[1]);
+                    }
+                });
+            });
+            plotRange(0,maxTime);
         });
+
         $(function () {
             $('#kills_deaths_chart').highcharts({
                 legend: {
@@ -129,13 +144,7 @@
                 credits:{
                     enabled:false
                 },
-                series: [{
-                    name: 'Kills',
-                    data: []
-                }, {
-                    name: 'Deaths',
-                    data: []
-                }],
+
                 chart: {
                     type: 'line'
                 },
@@ -145,7 +154,35 @@
                             enabled: false
                         }
                     }
-                }
+                },
+                 xAxis: {
+                     title: {
+                         enabled: false,
+                         text: null
+                     },
+                     endOnTick:false,
+                     startOnTick:false,
+                     labels: {
+                        enabled: false
+                    },
+                     minorTickLength: 0,
+                     tickLength: 0
+                 },
+                yAxis: {
+                     title: {
+                         enabled: false,
+                         text: null
+                     },
+                    min: 0
+                 },series: [{
+                    name: 'Kills',
+                    data: [],
+                    color: '#003380'
+                }, {
+                    name: 'Deaths',
+                    data: [],
+                    color: '#FF0000'
+                }]
             });
         });
         $(function () {
@@ -206,23 +243,48 @@
                 credits:{
                     enabled:false
                 },
-                tooltip: {
-                    formatter: function() {
-                        //console.log(this.series);
-                        for(var i=0; i< this.series.data.length; i++)
-                            {
-
-                                this.series.data[i].setState('hover');
-                            }
-                        return '<b>'+this.series.name+'</b><br/>'+
-                        this.x +': '+ this.y +'<br/>'+
-                        'Total: '+ this.series.data.length;
-
-                    },
-                    positioner: function() {
-                        return {x: 10, y:10}
+                series: [{
+                    name: 'Kills',
+                    data: [],
+                    marker: {
+                        symbol: 'circle',
+                        fillColor: '#003380',
+                        radius: 6
                     }
-                }
+                }, {
+                    name: 'Deaths',
+                    data: [],
+                    marker: {
+                        symbol: 'diamond',
+                        fillColor: '#FF0000',
+                        radius: 6
+                    }
+                },{
+                    name: 'Assists',
+                    data: [],
+                    marker: {
+                        symbol: 'triangle',
+                        fillColor: '#ff00ff',
+                        radius: 6
+                    }
+                }]
+{#                tooltip: {#}
+{#                    formatter: function() {#}
+{#                        //console.log(this.series);#}
+{#                        for(var i=0; i< this.series.data.length; i++)#}
+{#                            {#}
+{##}
+{#                                this.series.data[i].setState('hover');#}
+{#                            }#}
+{#                        return '<b>'+this.series.name+'</b><br/>'+#}
+{#                        this.x +': '+ this.y +'<br/>'+#}
+{#                        'Total: '+ this.series.data.length;#}
+{##}
+{#                    },#}
+{#                    positioner: function() {#}
+{#                        return {x: 10, y:10}#}
+{#                    }#}
+{#                }#}
             });
         });
         $(function () {
@@ -302,9 +364,76 @@
                 }
             });
         });
+        function searchLeft(start, arr)
+        {
+            var lo = 0;
+            var hi = arr.length - 1;
+
+            while (lo <= hi) {
+                var mid = Math.floor((lo + hi) / 2);
+                if (arr[mid]['timeline'] >= start) {
+                    hi =  mid - 1;
+                }else
+                {
+                    lo = mid + 1;
+                }
+            }
+
+            return lo;
+        }
+        function searchRight(start, arr)
+        {
+            var nextkey = -1;
+            var lo = 0;
+            var hi = arr.length - 1;
+
+            while (lo <= hi) {
+                var mid = Math.floor((lo + hi) / 2);
+                if (arr[mid]['timeline'] > start) {
+                    hi =  mid - 1;
+                }else
+                {
+                    lo = mid + 1;
+                }
+            }
+
+            return lo;
+        }
+        function plotRange(min, max) {
+
+            var minKillIndex =  searchLeft(min, kills);
+            var maxKillIndex = searchRight(max, kills);
+            var minDeathIndex =  searchLeft(min, deaths);
+            var maxDeathIndex = searchRight(max, deaths);
+            var minAssistIndex =  searchLeft(min, assists);
+            var maxAssistIndex = searchRight(max, assists);
+            var killRange = [];
+            var deathRange = [];
+            var assistRange = [];
+            for (var i = minKillIndex;i < maxKillIndex;i++)
+            {
+                killRange.push([kills[i]['position']['x'], kills[i]['position']['y']])
+            }
+            for (var j = minDeathIndex;j < maxDeathIndex;j++)
+            {
+                deathRange.push([deaths[j]['position']['x'], deaths[j]['position']['y']])
+            }
+            for (var j = minAssistIndex;j < maxAssistIndex;j++)
+            {
+                assistRange.push([assists[j]['position']['x'], assists[j]['position']['y']])
+            }
+            var chart = $('#chart_big_div').highcharts();
+            chart.series[0].setData(killRange);
+            chart.series[1].setData(deathRange);
+            chart.series[2].setData(assistRange);
+
+        }
         function plotLines() {
+            kills = [];
+            deaths = [];
+            assists = [];
             var chart = $('#kills_deaths_chart').highcharts();
-            var maxTime = 0;
+            maxTime = 0;
             if (temper != '')
                 for (var i = 0; i < temper['games'].length; i++) {
                     for (var j = 0; j < temper['games'][i]['kills'].length; j++) {
@@ -334,12 +463,13 @@
                 }
             kills.sort(function(a,b) { return parseFloat(a.timeline) - parseFloat(b.timeline) } );
             deaths.sort(function(a,b) { return parseFloat(a.timeline) - parseFloat(b.timeline) } );
+            assists.sort(function(a,b) { return parseFloat(a.timeline) - parseFloat(b.timeline) } );
             var ki = [];
             var de = [];
 {#            while(chart.series.length > 0)#}
 {#                chart.series[0].remove (false);#}
 {#            chart.redraw();#}
-            for ( var i = 0; i < maxTime;i+=60) {
+            for ( var i = 0; i <= maxTime;i+=60) {
                 ki.push(0);
                 de.push(0);
             }

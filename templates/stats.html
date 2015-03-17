@@ -98,7 +98,9 @@
                     <!-- FIDGET HERR FOR SIZE BUT LOOK AT CSS! -->
                     <div class="stretchy-wrapper">
                         <div id='chart_big_div' style="padding: 0; margin: 0; width:600px; height: 605px"></div>
-                        <div id='kills_deaths_chart' style="padding: 0; margin: 0; width:600px; height: 100px"></div>
+                        <div id="spacer" style="height:20px;"></div>
+                        <div id="spacer2">test</div>
+                        <div id='kills_deaths_chart' style="padding: 0; margin: 0; width:100%; height: 100px"></div>
                     </div>
 
 
@@ -553,19 +555,19 @@
                     var index = matches['1'].indexOf(match);
                     if (index == -1) {
                         matches['1'].push(match);
-                        if ($('#' + event.target.id).css('background-color') == 'rgb(223, 240, 216)') {
+                        if ($('#' + event.target.id).css('background-color') == 'rgb(177, 234, 126)') {
                             $('#' + event.target.id).animate({
                                 left: "+=50",
                                 width: (width - 50),
-                                backgroundColor: '#94d55b'
+                                backgroundColor: 'rgb(104, 220, 0)'
                             }, 500, function () {
                                 // Animation complete.
                             });
-                        } else if ($('#' + event.target.id).css('background-color') == 'rgb(242, 222, 222)') {
+                        } else if ($('#' + event.target.id).css('background-color') == 'rgb(255, 150, 150)') {
                              $('#' + event.target.id).animate({
                                 left: "+=50",
                                 width: (width - 50),
-                                backgroundColor: '#fb5d5d'
+                                backgroundColor: 'rgb(255, 67, 67)'
                             }, 500, function () {
                                 // Animation complete.
                             });
@@ -577,19 +579,19 @@
                         chart.get("d_"+matches['1'][index]).remove();
                         chart.get("a_"+matches['1'][index]).remove();
                         matches['1'].splice(index, 1);
-                        if ($('#' + event.target.id).css('background-color') == 'rgb(148, 213, 91)') {
+                        if ($('#' + event.target.id).css('background-color') == 'rgb(104, 220, 0)') {
                             $('#' + event.target.id).animate({
                                 left: "-=50",
                                 width: (width ),
-                                backgroundColor: 'rgb(223, 240, 216)'
+                                backgroundColor: 'rgb(177, 234, 126)'
                             }, 500, function () {
                                 // Animation complete.
                             });
-                        } else if ($('#' + event.target.id).css('background-color') == 'rgb(251, 93, 93)') {
+                        } else if ($('#' + event.target.id).css('background-color') == 'rgb(255, 67, 67)') {
                             $('#' + event.target.id).animate({
                                 left: "-=50",
                                 width: (width ),
-                                backgroundColor: 'rgb(242, 222, 222)'
+                                backgroundColor: 'rgb(255, 150, 150)'
                             }, 500, function () {
                                 // Animation complete.
                             });

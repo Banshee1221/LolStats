@@ -1,3 +1,6 @@
+body {
+
+}
 .border-free-table td, th {
     border: 0 !important;
 }
@@ -13,13 +16,13 @@
     -webkit-border-radius: 4px !important;
     -moz-border-radius: 4px !important;
     border-radius: 4px !important;
-    -webkit-border-top: 4px !important;
-    -moz-border-top: 4px !important;
-    border-top: 4px !important;
-    -webkit-border-bottom: 4px !important;
-    -moz-border-bottom: 4px !important;
-    border-bottom: 4px !important;
-    border: 0px solid black;
+    /*-webkit-border-top: 4px !important;*/
+    /*-moz-border-top: 4px !important;*/
+    /*border-top: 4px !important;*/
+    /*-webkit-border-bottom: 4px !important;*/
+    /*-moz-border-bottom: 4px !important;*/
+    /*border-bottom: 4px !important;*/
+    border: 1px solid grey;
 }
 
 .floater {
@@ -74,4 +77,30 @@
     /*overflow-y: scroll;*/
 /*}*/
 
+.modal, .modal-content, .modal-dialog, #chart_big_div, .stretchy-wrapper{
+    background: rgba(64, 64, 64, 0.0);
+    box-shadow: none;
+    border: none;
+}
 
+#chart_big_div {
+    margin-bottom: 50px; !important
+}
+
+#spacer2 {
+    height:100px;
+    background-color:#ffffff;
+    position:absolute;
+    height:600px;
+    margin-top:-620px;
+    width: calc(100% - 630px);
+    right: 0;
+}
+
+.bg-success {
+    background-color: rgb(177, 234, 126);
+}
+
+.bg-danger {
+    background-color: rgb(255, 150, 150);
+}

@@ -138,6 +138,13 @@
                 }],
                 chart: {
                     type: 'line'
+                },
+                plotOptions: {
+                    line: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
                 }
             });
         });
@@ -296,40 +303,58 @@
             });
         });
         function plotLines() {
+            var chart = $('#kills_deaths_chart').highcharts();
+            var maxTime = 0;
             if (temper != '')
                 for (var i = 0; i < temper['games'].length; i++) {
-                    for (var j = 0; j < temper['games'][i]['kills'].length; j++)
+                    for (var j = 0; j < temper['games'][i]['kills'].length; j++) {
+                        if (temper['games'][i]['kills'][j]['timestamp'] > maxTime)
+                            maxTime = temper['games'][i]['kills'][j]['timestamp']
                         kills.push({
                             'timeline': temper['games'][i]['kills'][j]['timestamp'],
                             'position': temper['games'][i]['kills'][j]['position']
                         });
-                    for (var j = 0; j < temper['games'][i]['deaths'].length; j++)
+                    }
+                    for (var j = 0; j < temper['games'][i]['deaths'].length; j++) {
+                        if (temper['games'][i]['deaths'][j]['timestamp'] > maxTime)
+                            maxTime = temper['games'][i]['deaths'][j]['timestamp']
                         deaths.push({
                             'timeline': temper['games'][i]['deaths'][j]['timestamp'],
                             'position': temper['games'][i]['deaths'][j]['position']
                         });
-                    for (var j = 0; j < temper['games'][i]['assists'].length; j++)
+                    }
+                    for (var j = 0; j < temper['games'][i]['assists'].length; j++) {
+                        if (temper['games'][i]['assists'][j]['timestamp'] > maxTime)
+                            maxTime = temper['games'][i]['assists'][j]['timestamp']
                         assists.push({
                             'timeline': temper['games'][i]['assists'][j]['timestamp'],
                             'position': temper['games'][i]['assists'][j]['position']
                         });
+                    }
                 }
             kills.sort(function(a,b) { return parseFloat(a.timeline) - parseFloat(b.timeline) } );
-            var min = 0;
-            var count = 0;
+            deaths.sort(function(a,b) { return parseFloat(a.timeline) - parseFloat(b.timeline) } );
             var ki = [];
+            var de = [];
+{#            while(chart.series.length > 0)#}
+{#                chart.series[0].remove (false);#}
+{#            chart.redraw();#}
+            for ( var i = 0; i < maxTime;i+=60) {
+                ki.push(0);
+                de.push(0);
+            }
+
             for (var i = 0; i < kills.length;i++)
             {
-                if (kills[i]['timestamp'] < (min * 60))
-                    count++;
-                else
-                {
-                    ki.push(count);
-                    count = 1;
-                    min++;
-                }
+                ki[Math.ceil(kills[i]['timeline']/60)]++;
             }
-            console.log(ki);
+            for (var i = 0; i < deaths.length;i++)
+            {
+                de[Math.ceil(deaths[i]['timeline']/60)]++;
+            }
+
+            chart.series[0].setData(ki);
+            chart.series[1].setData(de);
 {#            var k = [];#}
 {#            var d = [];#}
 {#            var a = [];#}

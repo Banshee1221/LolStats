@@ -86,23 +86,46 @@
 {#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
 
         </div>
-        <button type="button" id="big_button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        <button style="margin-left: 25px;" type="button" id="big_button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
           Expand Map
         </button>
 
         <!-- Modal -->
-        <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="banner" data-backdrop="static" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
 
                     <!-- FIDGET HERR FOR SIZE BUT LOOK AT CSS! -->
                     <div class="stretchy-wrapper">
                         <div id='chart_big_div' style="padding: 0; margin: 0; width:600px; height: 605px"></div>
-                        <div id='kills_deaths_chart' style="padding: 0; margin: 0; width:600px; height: 75px"></div>
-                        <div id="slider-range" style="width: 600px"></div>
                         <div id="spacer" style="height:20px;"></div>
-                        <div id="spacer2">test</div>
+                        <div id='kills_deaths_chart' style="padding: 0; margin: 0; width:600px; height: 75px"></div>
+                        <div id="slider-range"></div>
+                        <div id="spacer2">
+                            <div id="checkBoxes" style="margin-left: 20px;margin-top: 20px;">
+                                <div class="checkbox">
+                                    <img class="checkboxItem" src="{{ url_for('static', filename='images/kill.jpg') }}">
+                                    <label>
+                                       <input type="checkbox"> Kills
+                                    </label>
+                               </div>
+                                <div class="checkbox">
+                                    <img class="checkboxItem" src="{{ url_for('static', filename='images/death.jpg') }}">
+                                    <label>
+                                       <input type="checkbox"> Deaths
+                                    </label>
+                               </div>
+                                <div class="checkbox">
+                                    <img class="checkboxItem" src="{{ url_for('static', filename='images/assist.jpg') }}">
+                                    <label>
+                                       <input type="checkbox"> Assists
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="spacer3"></div>
                     </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="position:absolute;right:0;margin-top:10px;">Close</button>
 
 
                 </div>

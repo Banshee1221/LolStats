@@ -84,11 +84,24 @@
         <div class="col-md-12">
             <div id='chart_div' style="padding: 0; margin: 0; width:420px; height:425px"></div>
 {#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
-
+            <div class="media" style="">
+                <div style="width:195px;margin-left: 120px;">
+                    <h5 class="media-heading pull-left">Kills</h5>
+                    <img style="margin-right:10px;" class="checkboxItem media-object pull-left" src="{{ url_for('static', filename='images/kill.jpg') }}" alt="..." />
+                    <h5 style="border-left: 2px solid black;padding-left:10px;" class="media-heading pull-left">Deaths</h5>
+                    <img style="margin-right:10px;" class="checkboxItem media-object pull-left" src="{{ url_for('static', filename='images/death.jpg') }}" alt="..." />
+                    <h5 style="border-left: 2px solid black;padding-left:10px;" class="media-heading pull-left">Assists</h5>
+                    <img class="checkboxItem media-object pull-left" src="{{ url_for('static', filename='images/assist.jpg') }}" alt="..." />
+               </div>
+            </div>
+            <div>
+                <div style="height:45px;margin-left:160px;">
+                    <button style="" type="button" id="big_button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                        Expand Map
+                    </button>
+                </div>
+            </div>
         </div>
-        <button style="margin-left: 25px;" type="button" id="big_button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-          Expand Map
-        </button>
 
         <!-- Modal -->
         <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="banner" data-backdrop="static" aria-labelledby="myLargeModalLabel" aria-hidden="true">

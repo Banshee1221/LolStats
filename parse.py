@@ -104,7 +104,6 @@ class ReadPlayer:
         :return: A dictionary of data pertaining to the specified match
         """
         os.chdir(self.loc+"/static/json/"+str(self.playerId)+"/matchData")
-        print "oneMatch : " + self.loc
         store = dict(json.load(open(str(matchId)+".json", "r")))
         os.chdir(self.loc)
         return store

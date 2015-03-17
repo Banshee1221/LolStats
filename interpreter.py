@@ -55,7 +55,7 @@ class Interpreter():
         lastTime = 0;
         data = {'games': [], 'matches': []}
         #arrays = json.loads(array)
-        print array
+        #print array
         if array != None:
             for i in array:
                 currentGame = self.playerMatches.getOneMatch(i)

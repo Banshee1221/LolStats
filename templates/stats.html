@@ -85,8 +85,139 @@
             <div id='chart_div' style="padding: 0; margin: 0; width:420px; height:425px"></div>
 {#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
 
-        </div><script type="text/javascript">
-        var matches = {'1': []}
+        </div>
+        <button type="button" id="big_button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+          Expand Map
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <!-- FIDGET HERR FOR SIZE BUT LOOK AT CSS! -->
+                    <div class="stretchy-wrapper">
+                        <div id='chart_big_div' style="padding: 0; margin: 0; width:600px; height: 605px"></div>
+                        <div id='kills_deaths_chart' style="padding: 0; margin: 0; width:600px; height: 100px"></div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+        var matches = {'1': []};
+        var overSeriesIndex =-1;
+        var temper = '';
+        var kills = [];
+        var deaths = [];
+        var assists = [];
+        $('#big_button').click(function () {
+            plotLines();
+        });
+        $(function () {
+            $('#kills_deaths_chart').highcharts({
+                legend: {
+                    enabled:false
+                },
+                title: {
+                    text: '',
+                    style: {
+                        display: 'none'
+                    }
+                },
+                credits:{
+                    enabled:false
+                },
+                series: [{
+                    name: 'Kills',
+                    data: []
+                }, {
+                    name: 'Deaths',
+                    data: []
+                }],
+                chart: {
+                    type: 'line'
+                }
+            });
+        });
+        $(function () {
+            $('#chart_big_div').highcharts({
+                chart: {
+                    alignTicks: false,
+                    type: 'scatter',
+                    plotBackgroundImage:"{{ url_for('static', filename='images/vector_minimap.jpg.svg') }}"
+                },
+                title: {
+                    text: '',
+                    style: {
+                        display: 'none'
+                    }
+                },
+                xAxis: {
+                    title: {
+                        enabled: false,
+                        text: null
+                    },
+                    endOnTick:false,
+                    startOnTick:false,
+                    min: -120,
+                    max: 14870,
+                    lineWidth: 0,
+                    gridLineWidth: 0,
+                    minorGridLineWidth: 0,
+                    tickInterval:100,
+                    lineColor: 'transparent',
+                    labels: {
+                        enabled: false
+                    },
+                    minorTickLength: 0,
+                    tickLength: 0
+                },
+                yAxis: [{
+                    title: {
+                        enabled: false,
+                        text: null
+                    },
+                    endOnTick:false,
+                    startOnTick:false,
+                    min: -120,
+                    max: 14870,
+                    lineWidth: 0,
+                    gridLineWidth: 0,
+                    minorGridLineWidth: 0,
+                    lineColor: 'transparent',
+                    labels: {
+                        enabled: false
+                    },
+                    minorTickLength: 0,
+                    tickLength: 0
+                }],
+                legend: {
+                    enabled:false
+                },
+                credits:{
+                    enabled:false
+                },
+                tooltip: {
+                    formatter: function() {
+                        //console.log(this.series);
+                        for(var i=0; i< this.series.data.length; i++)
+                            {
+
+                                this.series.data[i].setState('hover');
+                            }
+                        return '<b>'+this.series.name+'</b><br/>'+
+                        this.x +': '+ this.y +'<br/>'+
+                        'Total: '+ this.series.data.length;
+
+                    },
+                    positioner: function() {
+                        return {x: 10, y:10}
+                    }
+                }
+            });
+        });
         $(function () {
             $('#chart_div').highcharts({
                 chart: {
@@ -144,11 +275,100 @@
                 },
                 credits:{
                     enabled:false
+                },
+                tooltip: {
+                    formatter: function() {
+                        //console.log(this.series);
+                        for(var i=0; i< this.series.data.length; i++)
+                            {
+
+                                this.series.data[i].setState('hover');
+                            }
+                        return '<b>'+this.series.name+'</b><br/>'+
+                        this.x +': '+ this.y +'<br/>'+
+                        'Total: '+ this.series.data.length;
+
+                    },
+                    positioner: function() {
+                        return {x: 10, y:10}
+                    }
                 }
             });
         });
-
-
+        function plotLines() {
+            if (temper != '')
+                for (var i = 0; i < temper['games'].length; i++) {
+                    for (var j = 0; j < temper['games'][i]['kills'].length; j++)
+                        kills.push({
+                            'timeline': temper['games'][i]['kills'][j]['timestamp'],
+                            'position': temper['games'][i]['kills'][j]['position']
+                        });
+                    for (var j = 0; j < temper['games'][i]['deaths'].length; j++)
+                        deaths.push({
+                            'timeline': temper['games'][i]['deaths'][j]['timestamp'],
+                            'position': temper['games'][i]['deaths'][j]['position']
+                        });
+                    for (var j = 0; j < temper['games'][i]['assists'].length; j++)
+                        assists.push({
+                            'timeline': temper['games'][i]['assists'][j]['timestamp'],
+                            'position': temper['games'][i]['assists'][j]['position']
+                        });
+                }
+            kills.sort(function(a,b) { return parseFloat(a.timeline) - parseFloat(b.timeline) } );
+            var min = 0;
+            var count = 0;
+            var ki = [];
+            for (var i = 0; i < kills.length;i++)
+            {
+                if (kills[i]['timestamp'] < (min * 60))
+                    count++;
+                else
+                {
+                    ki.push(count);
+                    count = 1;
+                    min++;
+                }
+            }
+            console.log(ki);
+{#            var k = [];#}
+{#            var d = [];#}
+{#            var a = [];#}
+{#            //while(chart.series.length > 0)#}
+{#            //    chart.series[0].remove (false);#}
+{#            //chart.redraw();#}
+{#            var i = temper['games'].length - 1;#}
+{#            for (var i = 0; i < temper['games'].length; i++) {#}
+{#                for (var j = 0; j < temper['games'][i]['kills'].length; j++)#}
+{#                    //chart.series[0].addPoint([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y']]);#}
+{#                    k.push([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y']]);#}
+{#                for (var j = 0; j < temper['games'][i]['deaths'].length; j++)#}
+{#                    //chart.series[1].addPoint([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y']]);#}
+{#                    d.push([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y']]);#}
+{#                for (var j = 0; j < temper['games'][i]['assists'].length; j++)#}
+{#                    //chart.series[2].addPoint([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y']]);#}
+{#                    a.push([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y']]);#}
+{#                chart.addSeries({#}
+{#                    name: temper['games'][i]['matchId'].toString(),#}
+{#                    id: "k_"+temper['games'][i]['matchId'],#}
+{#                    data: k,#}
+{#                    animation: false,#}
+{#                    redraw: false,#}
+{#                });#}
+{#                chart.addSeries({#}
+{#                    name: temper['games'][i]['matchId'].toString(),#}
+{#                    id: "k_"+temper['games'][i]['matchId'],#}
+{#                    data: k,#}
+{#                    animation: false,#}
+{#                    redraw: false,#}
+{#                });#}
+{#                chart.addSeries({#}
+{#                    name: temper['games'][i]['matchId'].toString(),#}
+{#                    id: "k_"+temper['games'][i]['matchId'],#}
+{#                    data: k,#}
+{#                    animation: false,#}
+{#                    redraw: false,#}
+{#                });#}
+        }
         function getPoints() {
             var t1 = JSON.stringify(matches);
             var chart = $('#chart_div').highcharts();
@@ -184,10 +404,35 @@
                     id: "k_"+temper['games'][i]['matchId'],
                     data: k,
                     animation: false,
+                    redraw: false,
                     marker: {
                         symbol: 'circle',
-                        fillColor: '#003380',
-                        radius: 6
+                        fillColor: '#3586FF',
+                        radius: 6,
+                        states: {
+                            hover: {
+                                fillColor: '#003380',
+                                radius: 10
+                            }
+                        }
+                    },
+                    events: {
+                        mouseOver: function() {
+                            //console.log(this.index);
+                            overSeriesIndex = this.index;
+                            for(var i=0; i< k.length; i++)
+                            {
+                                this.data[i].setState('hover');
+                            }
+
+                        },
+                        mouseOut: function(){
+
+                            for(var i=0; i< k.length; i++)
+                            {
+                                this.data[i].setState('');
+                            }
+                        }
                     }
                 });
                 //k = [];
@@ -196,22 +441,72 @@
                     id: "d_"+temper['games'][i]['matchId'],
                     data: d,
                     animation: false,
+                    redraw: false,
                     marker: {
                         symbol: 'diamond',
-                        fillColor: '#ff0000',
-                        radius: 6
+                        fillColor: '#FF3E3E',
+                        radius: 6,
+                        states: {
+                            hover: {
+                                fillColor: '#FF0000',
+                                radius: 10
+                            }
+                        }
+                    },
+                    events: {
+                        mouseOver: function() {
+                            //console.log(this.index);
+                            overSeriesIndex = this.index;
+                            for(var i=0; i< d.length; i++)
+                            {
+                                this.data[i].setState('hover');
+                            }
+
+                        },
+                        mouseOut: function(){
+
+                            for(var i=0; i< d.length; i++)
+                            {
+                                this.data[i].setState('');
+                            }
+                        }
                     }
                 });
                 //d = [];
                 chart.addSeries({
                     name: temper['games'][i]['matchId'],
                     id: "a_"+temper['games'][i]['matchId'],
-                    data: a,
                     animation: false,
+                    redraw: false,
                     marker: {
                         symbol: 'triangle',
-                        fillColor: '#ff00ff',
-                        radius: 6
+                        fillColor: '#F47DF4',
+                        radius: 6,
+                        states: {
+                            hover: {
+                                fillColor: '#ff00ff',
+                                radius: 10
+                            }
+                        }
+                    },
+                    data: a,
+                    events: {
+                        mouseOver: function() {
+                            //console.log(this.index);
+                            overSeriesIndex = this.index;
+                            for(var i=0; i< a.length; i++)
+                            {
+                                this.data[i].setState('hover');
+                            }
+
+                        },
+                        mouseOut: function(){
+
+                            for(var i=0; i< a.length; i++)
+                            {
+                                this.data[i].setState('');
+                            }
+                        }
                     }
                 });
                 //a = [];
@@ -248,7 +543,7 @@
                         matches['1'].splice(index, 1);
                         $('#' + event.target.id).animate({
                             left: "-=50",
-                            width: (width + 50)
+                            width: (width )
                         }, 500, function () {
                             // Animation complete.
                         });

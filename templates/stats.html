@@ -62,7 +62,7 @@
                 else {
                     iDiv.className = 'col-md-12 bg-success padder';
                 }
-                document.getElementsByClassName('col-md-8')[0].appendChild(iDiv);
+                document.getElementsByClassName('col-md-7')[0].appendChild(iDiv);
                 document.getElementById(id.toString()).appendChild(img);
                 document.getElementById(id.toString()).appendChild(killDiv);
                 document.getElementById(id.toString()).appendChild(eleLane);
@@ -80,7 +80,7 @@
         })
     </script>
 
-    <div class="col-md-4 left">
+    <div class="col-md-5 left">
         <div class="col-md-12">
             <div id='chart_div' style="padding: 0; margin: 0; width:420px; height:425px"></div>
 {#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
@@ -553,12 +553,23 @@
                     var index = matches['1'].indexOf(match);
                     if (index == -1) {
                         matches['1'].push(match);
-                        $('#' + event.target.id).animate({
-                            left: "+=50",
-                            width: (width - 50)
-                        }, 500, function () {
-                            // Animation complete.
-                        });
+                        if ($('#' + event.target.id).css('background-color') == 'rgb(223, 240, 216)') {
+                            $('#' + event.target.id).animate({
+                                left: "+=50",
+                                width: (width - 50),
+                                backgroundColor: '#94d55b'
+                            }, 500, function () {
+                                // Animation complete.
+                            });
+                        } else if ($('#' + event.target.id).css('background-color') == 'rgb(242, 222, 222)') {
+                             $('#' + event.target.id).animate({
+                                left: "+=50",
+                                width: (width - 50),
+                                backgroundColor: '#fb5d5d'
+                            }, 500, function () {
+                                // Animation complete.
+                            });
+                        }
                         getPoints();
                     } else {
                         var chart = $('#chart_div').highcharts();
@@ -566,19 +577,30 @@
                         chart.get("d_"+matches['1'][index]).remove();
                         chart.get("a_"+matches['1'][index]).remove();
                         matches['1'].splice(index, 1);
-                        $('#' + event.target.id).animate({
-                            left: "-=50",
-                            width: (width )
-                        }, 500, function () {
-                            // Animation complete.
-                        });
+                        if ($('#' + event.target.id).css('background-color') == 'rgb(148, 213, 91)') {
+                            $('#' + event.target.id).animate({
+                                left: "-=50",
+                                width: (width ),
+                                backgroundColor: 'rgb(223, 240, 216)'
+                            }, 500, function () {
+                                // Animation complete.
+                            });
+                        } else if ($('#' + event.target.id).css('background-color') == 'rgb(251, 93, 93)') {
+                            $('#' + event.target.id).animate({
+                                left: "-=50",
+                                width: (width ),
+                                backgroundColor: 'rgb(242, 222, 222)'
+                            }, 500, function () {
+                                // Animation complete.
+                            });
+                        }
                     }
                 }
             });
         });
     </script>
     </div>
-    <div id="rightDiv" class="col-md-8 right" style="height: 1000px; overflow:auto;">
+    <div id="rightDiv" class="col-md-7 right" style="height: 1000px; overflow:auto;">
 {#        <div style="display:table;height:100%;" class="bg-danger padder">#}
 {#            <div style="float:left;display:table-cell;vertical-align:middle;" class="imag col-md-1">#}
 {#                test#}

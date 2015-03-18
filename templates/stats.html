@@ -70,7 +70,7 @@
             <div id='chart_div' style="padding: 0; margin: 0; width:420px; height:425px"></div>
 {#            <svg style="background: url({{ url_for('static', filename='images/vector_minimap.jpg.svg') }}) no-repeat center; background-size: 100%"></svg>#}
             <div class="media" style="">
-                <div style="width:195px;margin-left: 120px;">
+                <div style="width:205px;margin-left: 120px;">
                     <h5 class="media-heading pull-left">Kills</h5>
                     <img style="margin-right:10px;" class="checkboxItem media-object pull-left" src="{{ url_for('static', filename='images/kill.jpg') }}" alt="..." />
                     <h5 style="border-left: 2px solid black;padding-left:10px;" class="media-heading pull-left">Deaths</h5>
@@ -104,19 +104,19 @@
                                 <div class="checkbox">
                                     <img class="checkboxItem" src="{{ url_for('static', filename='images/kill.jpg') }}">
                                     <label>
-                                       <input type="checkbox" checked> Kills
+                                       <input type="checkbox" id="killCheck" checked> Kills
                                     </label>
                                </div>
                                 <div class="checkbox">
                                     <img class="checkboxItem" src="{{ url_for('static', filename='images/death.jpg') }}">
                                     <label>
-                                       <input type="checkbox" checked> Deaths
+                                       <input type="checkbox" id="deathCheck" checked> Deaths
                                     </label>
                                </div>
                                 <div class="checkbox">
                                     <img class="checkboxItem" src="{{ url_for('static', filename='images/assist.jpg') }}">
                                     <label>
-                                       <input type="checkbox" checked> Assists
+                                       <input type="checkbox" id="assistCheck" checked> Assists
                                     </label>
                                 </div>
                             </div>
@@ -138,15 +138,43 @@
         var deaths = [];
         var assists = [];
         var maxTime = 0;
+        var kFlag = true;
+        var dFlag = true;
+        var aFlag = true;
+        var minRange = 0;
+        var maxRange = 100;
+        $('input[type=checkbox]').change(
+        function(){
+            if (this.checked) {
+                if (this.id == "killCheck")
+                    kFlag = true;
+                if (this.id == "deathCheck")
+                    dFlag = true;
+                if (this.id == "assistCheck")
+                    aFlag = true;
+            }
+            else {
+                if (this.id == "killCheck")
+                    kFlag = false;
+                if (this.id == "deathCheck")
+                    dFlag = false;
+                if (this.id == "assistCheck")
+                    aFlag = false;
+            }
+            plotRange(minRange, maxRange);
+        });
         $('#big_button').click(function () {
             plotLines();
             $(function() {
+                maxRange = maxTime;
                 $("#slider-range").slider({
                     range: true,
                     min: 0,
                     max: maxTime,
                     values: [0, maxTime],
                     slide: function (event, ui) {
+                        minRange = ui.values[0];
+                        maxRange = ui.values[1];
                         plotRange(ui.values[0], ui.values[1]);
                     }
                 });
@@ -184,10 +212,8 @@
                          enabled: false,
                          text: null
                      },
-                     endOnTick:false,
-                     startOnTick:false,
                      labels: {
-                        enabled: false
+                        enabled: true
                     },
                      minorTickLength: 0,
                      tickLength: 0
@@ -434,22 +460,28 @@
             var killRange = [];
             var deathRange = [];
             var assistRange = [];
-            for (var i = minKillIndex;i < maxKillIndex;i++)
-            {
-                killRange.push([kills[i]['position']['x'], kills[i]['position']['y']])
-            }
-            for (var j = minDeathIndex;j < maxDeathIndex;j++)
-            {
-                deathRange.push([deaths[j]['position']['x'], deaths[j]['position']['y']])
-            }
-            for (var j = minAssistIndex;j < maxAssistIndex;j++)
-            {
-                assistRange.push([assists[j]['position']['x'], assists[j]['position']['y']])
-            }
+            if (kFlag)
+                for (var i = minKillIndex;i < maxKillIndex;i++)
+                {
+                    killRange.push([kills[i]['position']['x'], kills[i]['position']['y']])
+                }
+            if (dFlag)
+                for (var j = minDeathIndex;j < maxDeathIndex;j++)
+                {
+                    deathRange.push([deaths[j]['position']['x'], deaths[j]['position']['y']])
+                }
+            if (aFlag)
+                for (var j = minAssistIndex;j < maxAssistIndex;j++)
+                {
+                    assistRange.push([assists[j]['position']['x'], assists[j]['position']['y']])
+                }
             var chart = $('#chart_big_div').highcharts();
             chart.series[0].setData(killRange);
             chart.series[1].setData(deathRange);
             chart.series[2].setData(assistRange);
+            $('#textBox').html("Kills : <b>" + killRange.length +
+                         '</b><br />Deaths  : <b>' + deathRange.length +
+                          '</b><br/>Assists : <b>' + assistRange.length + '</b>');
 
         }
         function plotLines() {
@@ -458,33 +490,33 @@
             assists = [];
             var chart = $('#kills_deaths_chart').highcharts();
             maxTime = 0;
-            if (temper != '')
-                for (var i = 0; i < temper['games'].length; i++) {
-                    for (var j = 0; j < temper['games'][i]['kills'].length; j++) {
-                        if (temper['games'][i]['kills'][j]['timestamp'] > maxTime)
-                            maxTime = temper['games'][i]['kills'][j]['timestamp']
-                        kills.push({
-                            'timeline': temper['games'][i]['kills'][j]['timestamp'],
-                            'position': temper['games'][i]['kills'][j]['position']
-                        });
-                    }
-                    for (var j = 0; j < temper['games'][i]['deaths'].length; j++) {
-                        if (temper['games'][i]['deaths'][j]['timestamp'] > maxTime)
-                            maxTime = temper['games'][i]['deaths'][j]['timestamp']
-                        deaths.push({
-                            'timeline': temper['games'][i]['deaths'][j]['timestamp'],
-                            'position': temper['games'][i]['deaths'][j]['position']
-                        });
-                    }
-                    for (var j = 0; j < temper['games'][i]['assists'].length; j++) {
-                        if (temper['games'][i]['assists'][j]['timestamp'] > maxTime)
-                            maxTime = temper['games'][i]['assists'][j]['timestamp']
-                        assists.push({
-                            'timeline': temper['games'][i]['assists'][j]['timestamp'],
-                            'position': temper['games'][i]['assists'][j]['position']
-                        });
-                    }
+            console.log(temper['games'].length);
+            for (var i = 0; i < temper['games'].length; i++) {
+                for (var j = 0; j < temper['games'][i]['kills'].length; j++) {
+                    if (temper['games'][i]['kills'][j]['timestamp'] > maxTime)
+                        maxTime = temper['games'][i]['kills'][j]['timestamp']
+                    kills.push({
+                        'timeline': temper['games'][i]['kills'][j]['timestamp'],
+                        'position': temper['games'][i]['kills'][j]['position']
+                    });
                 }
+                for (var j = 0; j < temper['games'][i]['deaths'].length; j++) {
+                    if (temper['games'][i]['deaths'][j]['timestamp'] > maxTime)
+                        maxTime = temper['games'][i]['deaths'][j]['timestamp']
+                    deaths.push({
+                        'timeline': temper['games'][i]['deaths'][j]['timestamp'],
+                        'position': temper['games'][i]['deaths'][j]['position']
+                    });
+                }
+                for (var j = 0; j < temper['games'][i]['assists'].length; j++) {
+                    if (temper['games'][i]['assists'][j]['timestamp'] > maxTime)
+                        maxTime = temper['games'][i]['assists'][j]['timestamp']
+                    assists.push({
+                        'timeline': temper['games'][i]['assists'][j]['timestamp'],
+                        'position': temper['games'][i]['assists'][j]['position']
+                    });
+                }
+            }
             kills.sort(function(a,b) { return parseFloat(a.timeline) - parseFloat(b.timeline) } );
             deaths.sort(function(a,b) { return parseFloat(a.timeline) - parseFloat(b.timeline) } );
             assists.sort(function(a,b) { return parseFloat(a.timeline) - parseFloat(b.timeline) } );
@@ -493,7 +525,7 @@
 {#            while(chart.series.length > 0)#}
 {#                chart.series[0].remove (false);#}
 {#            chart.redraw();#}
-            for ( var i = 0; i <= maxTime;i+=60) {
+            for ( var i = 0; i < maxTime+60;i+=60) {
                 ki.push(0);
                 de.push(0);
             }
@@ -506,9 +538,9 @@
             {
                 de[Math.ceil(deaths[i]['timeline']/60)]++;
             }
-
             chart.series[0].setData(ki);
             chart.series[1].setData(de);
+            chart.redraw();
 {#            var k = [];#}
 {#            var d = [];#}
 {#            var a = [];#}
@@ -568,19 +600,21 @@
             //    chart.series[0].remove (false);
             //chart.redraw();
             var i = temper['games'].length - 1;
-            //for (var i = 0; i < temper['games'].length; i++) {
+            if (i > -1) {
+                //for (var i = 0; i < temper['games'].length; i++) {
                 for (var j = 0; j < temper['games'][i]['kills'].length; j++)
-                    //chart.series[0].addPoint([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y']]);
+                        //chart.series[0].addPoint([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y']]);
                     k.push([temper['games'][i]['kills'][j]['position']['x'], temper['games'][i]['kills'][j]['position']['y']]);
                 for (var j = 0; j < temper['games'][i]['deaths'].length; j++)
-                    //chart.series[1].addPoint([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y']]);
+                        //chart.series[1].addPoint([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y']]);
                     d.push([temper['games'][i]['deaths'][j]['position']['x'], temper['games'][i]['deaths'][j]['position']['y']]);
                 for (var j = 0; j < temper['games'][i]['assists'].length; j++)
-                    //chart.series[2].addPoint([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y']]);
+                        //chart.series[2].addPoint([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y']]);
                     a.push([temper['games'][i]['assists'][j]['position']['x'], temper['games'][i]['assists'][j]['position']['y']]);
+
                 chart.addSeries({
                     name: temper['games'][i]['matchId'].toString(),
-                    id: "k_"+temper['games'][i]['matchId'],
+                    id: "k_" + temper['games'][i]['matchId'],
                     data: k,
                     animation: false,
                     redraw: false,
@@ -596,19 +630,17 @@
                         }
                     },
                     events: {
-                        mouseOver: function() {
+                        mouseOver: function () {
                             //console.log(this.index);
                             overSeriesIndex = this.index;
-                            for(var i=0; i< k.length; i++)
-                            {
+                            for (var i = 0; i < k.length; i++) {
                                 this.data[i].setState('hover');
                             }
 
                         },
-                        mouseOut: function(){
+                        mouseOut: function () {
 
-                            for(var i=0; i< k.length; i++)
-                            {
+                            for (var i = 0; i < k.length; i++) {
                                 this.data[i].setState('');
                             }
                         }
@@ -617,7 +649,7 @@
                 //k = [];
                 chart.addSeries({
                     name: temper['games'][i]['matchId'],
-                    id: "d_"+temper['games'][i]['matchId'],
+                    id: "d_" + temper['games'][i]['matchId'],
                     data: d,
                     animation: false,
                     redraw: false,
@@ -633,19 +665,17 @@
                         }
                     },
                     events: {
-                        mouseOver: function() {
+                        mouseOver: function () {
                             //console.log(this.index);
                             overSeriesIndex = this.index;
-                            for(var i=0; i< d.length; i++)
-                            {
+                            for (var i = 0; i < d.length; i++) {
                                 this.data[i].setState('hover');
                             }
 
                         },
-                        mouseOut: function(){
+                        mouseOut: function () {
 
-                            for(var i=0; i< d.length; i++)
-                            {
+                            for (var i = 0; i < d.length; i++) {
                                 this.data[i].setState('');
                             }
                         }
@@ -654,7 +684,7 @@
                 //d = [];
                 chart.addSeries({
                     name: temper['games'][i]['matchId'],
-                    id: "a_"+temper['games'][i]['matchId'],
+                    id: "a_" + temper['games'][i]['matchId'],
                     animation: false,
                     redraw: false,
                     marker: {
@@ -670,29 +700,27 @@
                     },
                     data: a,
                     events: {
-                        mouseOver: function() {
+                        mouseOver: function () {
                             //console.log(this.index);
                             overSeriesIndex = this.index;
-                            for(var i=0; i< a.length; i++)
-                            {
+                            for (var i = 0; i < a.length; i++) {
                                 this.data[i].setState('hover');
                             }
 
                         },
-                        mouseOut: function(){
+                        mouseOut: function () {
 
-                            for(var i=0; i< a.length; i++)
-                            {
+                            for (var i = 0; i < a.length; i++) {
                                 this.data[i].setState('');
                             }
                         }
                     }
                 });
                 //a = [];
-            //}
+                //}
 
 
-
+            }
 
         }
 
@@ -731,6 +759,7 @@
                         chart.get("d_"+matches['1'][index]).remove();
                         chart.get("a_"+matches['1'][index]).remove();
                         matches['1'].splice(index, 1);
+                        getPoints();
                         if ($('#' + event.target.id).css('background-color') == 'rgb(104, 220, 0)') {
                             $('#' + event.target.id).animate({
                                 left: "-=50",
